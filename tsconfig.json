@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "module": "esnext"
+    },
+    "include": ["src/**/*.ts", "src/commands/user/.keep.ts"]
+}
