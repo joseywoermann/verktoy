@@ -10,7 +10,9 @@ client.login(token);
 
 client.once("ready", async () => {
     logger.info(`[DISCORD]  Logged in as "${client.user.tag}"`);
-    client.stats.autopost();
+    if (!isDev) {
+        client.stats.autopost();
+    }
     client.user.setPresence(presence);
 
     // update commands
@@ -25,14 +27,14 @@ client.once("ready", async () => {
     }
 });
 
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
     if (!interaction.isAutocomplete()) {
         logger.debug(
             `[DISCORD]  Handling interaction ${interaction.id} of type ${interaction.type}`
         );
     }
-    if (interaction.isCommand()) {
-        client.stats.postCommand(interaction.commandName, interaction.user.id);
+    if (interaction.isCommand() && !isDev) {
+        await client.stats.postCommand(interaction.commandName, interaction.user.id);
     }
     handleInteraction(interaction);
 });
@@ -44,8 +46,8 @@ client.stats.on("autopost-start", () => {
 
 // client.stats.on("post", (status) => {
 //     if (!status) {
-// logger.debug(`[STATCORD] Successful statistics post`);
+//         logger.debug(`[STATCORD] Successful statistics post`);
 //     } else {
-// logger.error(status);
+//         logger.error(status);
 //     }
 // });
