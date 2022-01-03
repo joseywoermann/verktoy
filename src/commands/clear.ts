@@ -5,7 +5,13 @@ import type { ChatInputCommand } from "../util/types";
 export const clear: ChatInputCommand = {
     name: "clear",
     description: "Bulk delete messages in this channel",
-    options: [{ name: "limit", description: "The number of messages to delete", type: "INTEGER" }],
+    options: [
+        {
+            name: "limit",
+            description: "The number of messages to delete",
+            type: "INTEGER",
+        },
+    ],
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MANAGE_MESSAGES"))) return;
 

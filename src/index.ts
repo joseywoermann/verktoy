@@ -11,7 +11,7 @@ client.login(token);
 client.once("ready", async () => {
     logger.info(`[DISCORD]  Logged in as "${client.user.tag}"`);
     if (!isDev) {
-        client.stats.autopost();
+        client.metrics.autopost();
     }
     client.user.setPresence(presence);
 
@@ -29,18 +29,16 @@ client.once("ready", async () => {
 
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isAutocomplete()) {
-        logger.debug(
-            `[DISCORD]  Handling interaction ${interaction.id} of type ${interaction.type}`
-        );
+        logger.debug(`[DISCORD]  Handling interaction ${interaction.id} of type ${interaction.type}`);
     }
     if (interaction.isCommand() && !isDev) {
-        await client.stats.postCommand(interaction.commandName, interaction.user.id);
+        await client.metrics.postCommand(interaction.commandName, interaction.user.id);
     }
     handleInteraction(interaction);
 });
 
 // Statistics stuff from Statcord
-client.stats.on("autopost-start", () => {
+client.metrics.on("autopost-start", () => {
     logger.info(`[STATCORD] Started automatic statistics posting`);
 });
 

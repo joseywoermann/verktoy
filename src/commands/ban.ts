@@ -50,18 +50,18 @@ export const ban: ChatInputCommand = {
         if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
 
         let user: Snowflake;
-        const reason = interaction.options.get("reason")?.value ?? "No reason provided";
+
+        const rawReason = interaction.options.get("reason")?.value;
+        const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;
 
         if (interaction.options.getSubcommand() === "user") {
-            user = interaction.options.get("member").user.id;
+            user = interaction.options.get("member")?.user.id;
         } else if (interaction.options.getSubcommand() === "id") {
-            user = interaction.options.get("member")?.value as Snowflake;
+            user = interaction.options.get("member")?.value.toString();
         }
 
         try {
-            await interaction.guild.members.ban(user, {
-                reason: reason as string,
-            });
+            await interaction.guild.members.ban(user, { reason: reason });
             await interaction.reply({ content: `Successfully banned <@${user}>.` });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);

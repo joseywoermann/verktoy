@@ -24,10 +24,12 @@ export const kick: ChatInputCommand = {
         if (!(await checkPermissions(interaction, "KICK_MEMBERS"))) return;
 
         const user: Snowflake = interaction.options.get("member").user.id;
-        const reason = interaction.options.get("reason")?.value ?? "No reason provided";
+
+        const rawReason = interaction.options.get("reason")?.value;
+        const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;
 
         try {
-            await interaction.guild.members.kick(user, reason as string);
+            await interaction.guild.members.kick(user, reason);
             await interaction.reply({ content: `Successfully kicked <@${user}>.` });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);

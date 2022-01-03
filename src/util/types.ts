@@ -12,7 +12,7 @@ import type {
 } from "discord.js";
 
 /**
- * This type includes the Slash Command data & the run() method
+ * This type includes the Slash Command data & the `run()` method
  */
 export interface ChatInputCommand extends ChatInputApplicationCommandData {
     run: (interaction: CommandInteraction) => Promise<void>;
@@ -20,14 +20,14 @@ export interface ChatInputCommand extends ChatInputApplicationCommandData {
 }
 
 /**
- * This type includes the Context Menu data for messages & the run() method
+ * This type includes the Context Menu data for messages & the `run()` method
  */
 export interface MessageContextCommand extends MessageApplicationCommandData {
     run: (interaction: ContextMenuInteraction) => Promise<void>;
 }
 
 /**
- * This type includes the Context Menu data for users & the run() method
+ * This type includes the Context Menu data for users & the `run()` method
  */
 export interface UserContextCommand extends UserApplicationCommandData {
     run: (interaction: ContextMenuInteraction) => Promise<void>;
@@ -39,7 +39,7 @@ export interface UserContextCommand extends UserApplicationCommandData {
 export type Command = ChatInputCommand | MessageContextCommand | UserContextCommand;
 
 /**
- * This type includes the Button data and the run() method
+ * This type includes the Button data and the `run()` method
  */
 export interface Button {
     data: MessageButton;
@@ -47,9 +47,14 @@ export interface Button {
 }
 
 /**
- * This type includes the Button data and the run() method
+ * This type includes the Select data and the `run()` method
  */
 export interface Select {
     data: MessageSelectMenu;
     run: (interaction: SelectMenuInteraction) => Promise<void>;
 }
+
+/**
+ * All message components
+ */
+export type MessageComponent = Button | Select;

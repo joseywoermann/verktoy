@@ -12,12 +12,20 @@ export const unban: ChatInputCommand = {
             type: "STRING",
             required: true,
         },
+        {
+            name: "reason",
+            description: "The reaosn why the user should be unmuted.",
+            type: "STRING",
+        },
     ],
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
         await interaction.deferReply({ ephemeral: true });
 
         const query = interaction.options.get("user").value as string;
+
+        const rawReason = interaction.options.get("reason")?.value;
+        const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;
 
         try {
             const bannedUsers = (await interaction.guild.bans.fetch()).values();
@@ -28,7 +36,7 @@ export const unban: ChatInputCommand = {
 
                 if (query === `${username}#${discriminator}`) {
                     try {
-                        await interaction.guild.members.unban(id);
+                        await interaction.guild.members.unban(id, reason);
                         await interaction.editReply({ content: `Successfully unbanned <@${id}>.` });
                         banned = true;
                         break;
