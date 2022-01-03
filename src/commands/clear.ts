@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { checkPermissions } from "../util/checkPermissions.js";
 import { handleError } from "../util/errorHandler.js";
 import type { ChatInputCommand } from "../util/types";
 
@@ -7,16 +7,8 @@ export const clear: ChatInputCommand = {
     description: "Bulk delete messages in this channel",
     options: [{ name: "limit", description: "The number of messages to delete", type: "INTEGER" }],
     run: async (interaction) => {
-        if (!interaction.memberPermissions.has("MANAGE_MESSAGES")) {
-            const embed = new MessageEmbed({
-                title: "You are missing the following permission(s):",
-                description: `\`\`\`\MANAGE_MESSAGES\`\`\``,
-                color: "RED",
-            });
+        if (!(await checkPermissions(interaction, "MANAGE_MESSAGES"))) return;
 
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
         await interaction.deferReply({ ephemeral: true });
 
         try {

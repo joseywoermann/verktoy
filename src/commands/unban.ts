@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { checkPermissions } from "../util/checkPermissions.js";
 import { handleError } from "../util/errorHandler.js";
 import type { ChatInputCommand } from "../util/types";
 
@@ -14,16 +14,7 @@ export const unban: ChatInputCommand = {
         },
     ],
     run: async (interaction) => {
-        if (!interaction.memberPermissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed({
-                title: "You are missing the following permission(s):",
-                description: `\`\`\`\nBAN_MEMBERS\`\`\``,
-                color: "RED",
-            });
-
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
+        if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
         await interaction.deferReply({ ephemeral: true });
 
         const query = interaction.options.get("user").value as string;

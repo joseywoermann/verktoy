@@ -1,4 +1,5 @@
-import { MessageEmbed, Snowflake } from "discord.js";
+import { Snowflake } from "discord.js";
+import { checkPermissions } from "../util/checkPermissions.js";
 import { handleError } from "../util/errorHandler.js";
 import type { ChatInputCommand } from "../util/types";
 
@@ -46,16 +47,8 @@ export const ban: ChatInputCommand = {
         },
     ],
     run: async (interaction) => {
-        if (!interaction.memberPermissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed({
-                title: "You are missing the following permission(s):",
-                description: `\`\`\`\nBAN_MEMBERS\`\`\``,
-                color: "RED",
-            });
+        if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
 
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-            return;
-        }
         let user: Snowflake;
         const reason = interaction.options.get("reason")?.value ?? "No reason provided";
 

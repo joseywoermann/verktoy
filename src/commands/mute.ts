@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { checkPermissions } from "../util/checkPermissions.js";
 import { handleError } from "../util/errorHandler.js";
 import { ChatInputCommand } from "../util/types";
 
@@ -20,15 +20,7 @@ export const mute: ChatInputCommand = {
         },
     ],
     run: async (interaction) => {
-        if (!interaction.memberPermissions.has("MODERATE_MEMBERS")) {
-            const embed = new MessageEmbed({
-                title: "You are missing the following permission(s):",
-                description: `\`\`\`\nMODERATE_MEMBERS\`\`\``,
-                color: "RED",
-            });
-
-            await interaction.reply({ embeds: [embed], ephemeral: true });
-        }
+        if (!(await checkPermissions(interaction, "MODERATE_MEMBERS"))) return;
 
         const userId = interaction.options.get("user").user.id;
         const duration = Number(interaction.options.get("duration").value);
