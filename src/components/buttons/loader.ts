@@ -13,7 +13,9 @@ const loadButtons = async (): Promise<Button[]> => {
     for (const file of buttonFiles) {
         let button = await import(`./${file}`);
         buttonsData.push(button[file.replace(".js", "")]);
-        logger.debug(`[DISCORD]  Found button:  ${button[file.replace(".js", "")].data.customId}`);
+        logger.debug(
+            `[DISCORD]  Found button:  ${button[file.replace(".js", "")].data.customId ?? "<LINK-button>"}`
+        );
     }
 
     return buttonsData;
