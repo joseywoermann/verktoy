@@ -40,7 +40,7 @@ export const stats: ChatInputCommand = {
                     { name: "Commands run (all time)", value: block(commandRuns), inline: true },
                     {
                         name: "Most popular command",
-                        value: block(`${popular[0].name} | Run ${popular[0].count} times`),
+                        value: block(`/${popular[0].name} | Run ${popular[0].count} times`),
                         inline: true,
                     },
                     {
@@ -49,7 +49,7 @@ export const stats: ChatInputCommand = {
                     },
                     { name: "Library", value: block("discord.js v13.5.1"), inline: true },
                     { name: "Bot version", value: block("v0.1.0"), inline: true },
-                    { name: "Memory usage", value: `${block(memUsage)} MB`, inline: true },
+                    { name: "Memory usage", value: `${block(`${memUsage} MB`)}`, inline: true },
                 ],
             });
 

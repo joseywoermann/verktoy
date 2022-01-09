@@ -15,3 +15,5 @@ export const presence: PresenceData = {
     status: "online",
     activities: [{ type: "LISTENING", name: "Slash Commands" }],
 };
+
+export const oauth2Permissions = 8;
