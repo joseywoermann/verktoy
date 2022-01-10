@@ -7,51 +7,127 @@ export const define: ChatInputCommand = {
     description: "Look up a definition of a word on urbandictionary.com",
     options: [
         {
-            name: "word",
-            description: "The word to define",
-            type: "STRING",
-            required: true,
+            name: "slang",
+            description: "Use urbandictionary.com",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "word",
+                    description: "The word to define",
+                    type: "STRING",
+                    required: true,
+                },
+            ],
+        },
+        {
+            name: "official",
+            description: "Use an official dictionary",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "word",
+                    description: "The word to define",
+                    type: "STRING",
+                    required: true,
+                },
+            ],
         },
     ],
     run: async (interaction) => {
+        await interaction.deferReply();
         const word = interaction.options.get("word").value.toString();
-        const definition = await getDefinitions(word);
 
-        if (!definition) {
-            const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
-            await interaction.reply({ embeds: [embed] });
-            return;
+        if (interaction.options.getSubcommand() === "slang") {
+            const definition = (await getDefinitions(word, "slang")) as SlangDefinition;
+            if (!definition) {
+                const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
+                await interaction.editReply({ embeds: [embed] });
+                return;
+            }
+
+            const embed = new MessageEmbed({
+                title: definition.word,
+                description: `${definition.definition}`,
+                footer: {
+                    text: `Source: urbandictionary.com | by ${definition.author} | ${definition.thumbs_up} upvotes, ${definition.thumbs_down} downvotes`,
+                },
+            });
+
+            await interaction.editReply({ embeds: [embed] });
+        } else if (interaction.options.getSubcommand() === "official") {
+            const definition = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
+
+            if (!definition) {
+                const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
+                await interaction.editReply({ embeds: [embed] });
+                return;
+            }
+
+            const defFields: { name: string; value: string }[] = [];
+
+            definition.meanings.forEach((meaning) => {
+                defFields.push({
+                    name: `Type: ${meaning.partOfSpeech}`,
+                    value: `Definition: ${meaning.definitions[0].definition}`,
+                });
+            });
+
+            const embed = new MessageEmbed({
+                title: definition.word,
+                fields: defFields,
+                footer: { text: `Source: dictionaryapi.dev` },
+            });
+
+            await interaction.editReply({ embeds: [embed] });
         }
-
-        const embed = new MessageEmbed({
-            title: definition.word,
-            description: `${definition.definition}`,
-            footer: {
-                text: `Definition by ${definition.author} | ${definition.thumbs_up} upvotes, ${definition.thumbs_down} downvotes`,
-            },
-            author: {
-                name: `Definitions powered by urbandictionary.com`,
-                url: definition.permalink,
-            },
-            timestamp: new Date(definition.written_on),
-        });
-
-        await interaction.reply({ embeds: [embed] });
     },
 };
 
-const getDefinitions = async (query: string): Promise<Definition> => {
-    const url = `https://api.urbandictionary.com/v0/define?term=${query}`;
-    const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`);
-    const resData = (await res.json()) as APIResponse;
-    return resData.list[0];
+const getDefinitions = async (
+    query: string,
+    type: "slang" | "official"
+): Promise<SlangDefinition | OfficialDefinitionEntry> => {
+    if (type === "slang") {
+        const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`);
+        const resData = (await res.json()) as SlangAPIResponse;
+        return resData.list[0];
+    } else {
+        const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${query}`);
+        const resData = (await res.json()) as OfficialDefinitionEntry[];
+        return resData[0];
+    }
 };
 
-interface APIResponse {
-    list: Definition[];
+export interface OfficialDefinitionEntry {
+    word: string;
+    phonetic: string;
+    phonetics: Phonetic[];
+    origin: string;
+    meanings: Meaning[];
+}
+export interface Phonetic {
+    text: string;
+    audio?: string;
 }
 
-interface Definition {
+export interface Meaning {
+    partOfSpeech: string;
+    definitions: Definition[];
+}
+
+export interface Definition {
+    definition: string;
+    example?: string;
+    synonyms: string[];
+    antonyms: any[];
+}
+
+// slang stuff
+interface SlangAPIResponse {
+    list: SlangDefinition[];
+}
+
+interface SlangDefinition {
     definition: string;
     permalink: string;
     thumbs_up: number;
