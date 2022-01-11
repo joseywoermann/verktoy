@@ -6,9 +6,9 @@ import type {
     Interaction,
     SelectMenuInteraction,
 } from "discord.js";
-import { commands } from "../commands/loader.js";
-import { buttons } from "../components/buttons/loader.js";
-import { selects } from "../components/selects/loader.js";
+import { commands } from "../commands/__loader.js";
+import { buttons } from "../components/buttons/__loader.js";
+import { selects } from "../components/selects/__loader.js";
 import type { ChatInputCommand, MessageContextCommand, UserContextCommand } from "../util/types";
 import { logger } from "../util/logger.js";
 
@@ -32,9 +32,7 @@ const handleMessageInteraction = async (interaction: CommandInteraction) => {
 
 const handleContextInteraction = async (interaction: ContextMenuInteraction) => {
     try {
-        const command = commands.get(interaction.commandName) as
-            | MessageContextCommand
-            | UserContextCommand;
+        const command = commands.get(interaction.commandName) as MessageContextCommand | UserContextCommand;
 
         if (!command) return;
         await command.run(interaction);

@@ -1,5 +1,5 @@
 import type { ApplicationCommandDataResolvable } from "discord.js";
-import { commands } from "./commands/loader.js";
+import { commands } from "./commands/__loader.js";
 import { handleInteraction } from "./handlers/interaction.js";
 import { devServerId, isDev, presence, token } from "./util/constants.js";
 import { CustomClient } from "./util/modules/Client.js";

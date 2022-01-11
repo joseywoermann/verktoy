@@ -8,7 +8,7 @@ const loadButtons = async (): Promise<Button[]> => {
     const buttonsData: Button[] = [];
     const buttonFiles = fs
         .readdirSync(`dist/components/buttons/`)
-        .filter((file) => file.endsWith(".js") && !file.startsWith("loader.js"));
+        .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
 
     for (const file of buttonFiles) {
         let button = await import(`./${file}`);
