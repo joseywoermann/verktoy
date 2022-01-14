@@ -7,9 +7,9 @@ import { supportButton } from "../components/buttons/supportButton.js";
 import { sourceButton } from "../components/buttons/sourceButton.js";
 import { fetchMetrics } from "../util/metrics.js";
 
-export const stats: ChatInputCommand = {
-    name: "stats",
-    description: "Show bot statistics",
+export const info: ChatInputCommand = {
+    name: "info",
+    description: "Show bot statistics & information",
     run: async (interaction) => {
         await interaction.deferReply();
         const data = await fetchMetrics(interaction.client.user.id);
@@ -50,6 +50,7 @@ export const stats: ChatInputCommand = {
                     { name: "Library", value: block("discord.js v13.5.1"), inline: true },
                     { name: "Bot version", value: block("v0.1.0"), inline: true },
                     { name: "Memory usage", value: `${block(`${memUsage} MB`)}`, inline: true },
+                    { name: "Attributions", value: `TODO` },
                 ],
             });
 
@@ -65,4 +66,4 @@ export const stats: ChatInputCommand = {
     },
 };
 
-const block = (text: string | number | true) => `\`\`\`${text}\`\`\``;
+const block = (text: string | number | boolean) => `\`\`\`${text}\`\`\``;
