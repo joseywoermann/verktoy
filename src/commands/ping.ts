@@ -1,4 +1,4 @@
-import type { ChatInputCommand } from "../util/types";
+import type { ChatInputCommand } from "#util/types";
 
 export const ping: ChatInputCommand = {
     name: "ping",

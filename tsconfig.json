@@ -3,7 +3,14 @@
         "target": "esnext",
         "outDir": "dist",
         "moduleResolution": "node",
-        "module": "esnext"
+        "module": "esnext",
+        "baseUrl": "./",
+        "paths": {
+            "#buttons/*": ["./src/components/buttons/*"],
+            "#selects/*": ["./src/components/selects/*"],
+            "#commands/*": ["./src/commands/*"],
+            "#util/*": ["./src/util/*"]
+        }
     },
     "include": ["src/**/*.ts", "src/commands/user/.keep.ts"]
 }

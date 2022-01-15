@@ -1,6 +1,6 @@
-import { checkPermissions } from "../util/checkPermissions.js";
-import { handleError } from "../util/errorHandler.js";
-import type { ChatInputCommand } from "../util/types";
+import { checkPermissions } from "#util/checkPermissions.js";
+import { handleError } from "#util/errorHandler.js";
+import type { ChatInputCommand } from "#util/types";
 
 export const clear: ChatInputCommand = {
     name: "clear",

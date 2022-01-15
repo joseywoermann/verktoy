@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "../util/types";
+import { ChatInputCommand } from "#util/types";
 import { evaluate } from "mathjs";
 
 export const calculate: ChatInputCommand = {

@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
-import { get } from "../util/modules/SomeRandomAPI.js";
-import { ChatInputCommand } from "../util/types";
+import { get } from "#util/modules/SomeRandomAPI.js";
+import { ChatInputCommand } from "#util/types";
 
 export const lyrics: ChatInputCommand = {
     name: "lyrics",

@@ -6,11 +6,11 @@ import type {
     Interaction,
     SelectMenuInteraction,
 } from "discord.js";
-import { commands } from "../commands/__loader.js";
-import { buttons } from "../components/buttons/__loader.js";
-import { selects } from "../components/selects/__loader.js";
-import type { ChatInputCommand, MessageContextCommand, UserContextCommand } from "../util/types";
-import { logger } from "../util/logger.js";
+import { commands } from "#commands/__loader.js";
+import { buttons } from "#buttons/__loader.js";
+import { selects } from "#selects/__loader.js";
+import type { ChatInputCommand, MessageContextCommand, UserContextCommand } from "#util/types";
+import { logger } from "#util/logger.js";
 
 export const handleInteraction = async (interaction: Interaction): Promise<void> => {
     if (interaction.isContextMenu()) return await handleContextInteraction(interaction);

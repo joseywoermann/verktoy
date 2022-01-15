@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
-import { statisticsURL } from "./constants.js";
+import { statisticsURL } from "#util/constants.js";
 import type { Snowflake } from "discord.js";
-import type { APIResponse, Metrics } from "./types";
+import type { APIResponse, Metrics } from "#util/types";
 
 /**
  * Fetch metrics from the API and parse them
