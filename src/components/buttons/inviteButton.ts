@@ -1,6 +1,6 @@
 import { MessageButton } from "discord.js";
 import { Button } from "#util/types";
-import { oauth2Permissions } from "#util/constants.js";
+import { oauth2Permissions } from "#util/constants";
 
 export const inviteButton: Button = {
     data: new MessageButton({

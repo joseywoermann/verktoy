@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { statisticsURL } from "#util/constants.js";
+import { statisticsURL } from "#util/constants";
 import type { Snowflake } from "discord.js";
 import type { APIResponse, Metrics } from "#util/types";
 

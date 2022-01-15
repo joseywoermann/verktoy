@@ -4,7 +4,7 @@ import {
     MessageComponentInteraction,
     MessageEmbed,
 } from "discord.js";
-import { logger } from "#util/logger.js";
+import { logger } from "#util/logger";
 
 /**
  * Log the error to the console and reply to the interaction with a nice embed.

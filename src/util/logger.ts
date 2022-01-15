@@ -1,5 +1,5 @@
 import Logger from "@josey/logger";
-import { isDev } from "#util/constants.js";
+import { isDev } from "#util/constants";
 
 export const logger = new Logger({
     timezone: "UTC",

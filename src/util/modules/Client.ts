@@ -1,6 +1,6 @@
 import { Client as DiscordClient } from "discord.js";
 import { Client as StatcordClient } from "statcord.js";
-import { intents, statcordToken } from "#util/constants.js";
+import { intents, statcordToken } from "#util/constants";
 
 export class CustomClient extends DiscordClient {
     /**

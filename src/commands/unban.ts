@@ -1,5 +1,5 @@
-import { checkPermissions } from "#util/checkPermissions.js";
-import { handleError } from "#util/errorHandler.js";
+import { checkPermissions } from "#util/checkPermissions";
+import { handleError } from "#util/errorHandler";
 import type { ChatInputCommand } from "#util/types";
 
 export const unban: ChatInputCommand = {

@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { Collection } from "discord.js";
 import type { Select } from "#util/types";
-import { logger } from "#util/logger.js";
+import { logger } from "#util/logger";
 
 // Load all selects in the selects/ directory
 const loadSelects = async (): Promise<Select[]> => {

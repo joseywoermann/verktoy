@@ -1,11 +1,11 @@
 import type { ChatInputCommand } from "#util/types";
-import { owner } from "#util/constants.js";
+import { owner } from "#util/constants";
 import { MessageActionRow, MessageEmbed, User } from "discord.js";
-import { formatDuration } from "#util/formatTime.js";
-import { inviteButton } from "#buttons/inviteButton.js";
-import { supportButton } from "#buttons/supportButton.js";
-import { sourceButton } from "#buttons/sourceButton.js";
-import { fetchMetrics } from "#util/metrics.js";
+import { formatDuration } from "#util/formatTime";
+import { inviteButton } from "#buttons/inviteButton";
+import { supportButton } from "#buttons/supportButton";
+import { sourceButton } from "#buttons/sourceButton";
+import { fetchMetrics } from "#util/metrics";
 
 export const info: ChatInputCommand = {
     name: "info",

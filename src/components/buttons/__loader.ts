@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { Collection } from "discord.js";
 import type { Button } from "#util/types";
-import { logger } from "#util/logger.js";
+import { logger } from "#util/logger";
 
 // Load all buttons in the button/ directory
 const loadButtons = async (): Promise<Button[]> => {
