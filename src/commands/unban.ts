@@ -24,19 +24,21 @@ export const unban: ChatInputCommand = {
 
         const query = interaction.options.get("user").value as string;
 
-        const rawReason = interaction.options.get("reason")?.value;
-        const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;
+        const reason = interaction.options.get("reason")?.value;
 
         try {
-            const bannedUsers = (await interaction.guild.bans.fetch()).values();
+            const banEntries = (await interaction.guild.bans.fetch()).values();
             let banned = false;
 
-            for (const entry of bannedUsers) {
-                const { username, discriminator, id } = entry.user;
+            for (const banEntry of banEntries) {
+                const { username, discriminator, id } = banEntry.user;
 
                 if (query === `${username}#${discriminator}`) {
                     try {
-                        await interaction.guild.members.unban(id, reason);
+                        await interaction.guild.members.unban(
+                            id,
+                            `${reason ?? "None"} - ${interaction.user.tag}`
+                        );
                         await interaction.editReply({ content: `Successfully unbanned <@${id}>.` });
                         banned = true;
                         break;
@@ -45,6 +47,7 @@ export const unban: ChatInputCommand = {
                     }
                 }
             }
+
             if (!banned) {
                 await interaction.editReply({ content: `User \`${query}\` is not banned.` });
             }

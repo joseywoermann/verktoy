@@ -4,19 +4,19 @@ import type { Command } from "#util/types";
 import { logger } from "#util/logger";
 
 const loadCommands = async (): Promise<Command[]> => {
-    const commandsData: Command[] = [];
+    const commands: Command[] = [];
     const commandFiles = fs
         .readdirSync(`dist/commands`)
         .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
 
-    for (const file of commandFiles) {
-        let command = await import(`./${file}`);
-        const data: Command = command[file.replace(".js", "")];
-        commandsData.push(data);
-        logger.debug(`[DISCORD]  Found command: ${data.name}`);
+    for (const commandFile of commandFiles) {
+        let file = await import(`./${commandFile}`);
+        const command: Command = file[commandFile.replace(".js", "")];
+        commands.push(command);
+        logger.debug(`[DISCORD]  Found command: ${command.name}`);
     }
 
-    return commandsData;
+    return commands;
 };
 
 export const commands = new Collection<string, Command>(

@@ -38,26 +38,27 @@ export const define: ChatInputCommand = {
         const word = interaction.options.get("word").value.toString();
 
         if (interaction.options.getSubcommand() === "slang") {
-            const definition = (await getDefinitions(word, "slang")) as SlangDefinition;
-            if (!definition) {
+            const def = (await getDefinitions(word, "slang")) as SlangDefinition;
+
+            if (!def) {
                 const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
                 await interaction.editReply({ embeds: [embed] });
                 return;
             }
 
             const embed = new MessageEmbed({
-                title: definition.word,
-                description: `${definition.definition}`,
+                title: def.word,
+                description: `${def.definition}`,
                 footer: {
-                    text: `Source: urbandictionary.com | by ${definition.author} | ${definition.thumbs_up} upvotes, ${definition.thumbs_down} downvotes`,
+                    text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
                 },
             });
 
             await interaction.editReply({ embeds: [embed] });
         } else if (interaction.options.getSubcommand() === "official") {
-            const definition = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
+            const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
 
-            if (!definition) {
+            if (!def) {
                 const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
                 await interaction.editReply({ embeds: [embed] });
                 return;
@@ -65,7 +66,7 @@ export const define: ChatInputCommand = {
 
             const defFields: { name: string; value: string }[] = [];
 
-            definition.meanings.forEach((meaning) => {
+            def.meanings.forEach((meaning) => {
                 defFields.push({
                     name: `Type: ${meaning.partOfSpeech}`,
                     value: `Definition: ${meaning.definitions[0].definition}`,
@@ -73,7 +74,7 @@ export const define: ChatInputCommand = {
             });
 
             const embed = new MessageEmbed({
-                title: definition.word,
+                title: def.word,
                 fields: defFields,
                 footer: { text: `Source: dictionaryapi.dev` },
             });

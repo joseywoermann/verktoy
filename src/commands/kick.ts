@@ -1,4 +1,3 @@
-import { Snowflake } from "discord.js";
 import { checkPermissions } from "#util/checkPermissions";
 import { handleError } from "#util/errorHandler";
 import type { ChatInputCommand } from "#util/types";
@@ -23,7 +22,7 @@ export const kick: ChatInputCommand = {
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "KICK_MEMBERS"))) return;
 
-        const user: Snowflake = interaction.options.get("member").user.id;
+        const user = interaction.options.get("member").user.id;
 
         const rawReason = interaction.options.get("reason")?.value;
         const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;

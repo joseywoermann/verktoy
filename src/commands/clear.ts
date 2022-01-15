@@ -10,6 +10,7 @@ export const clear: ChatInputCommand = {
             name: "limit",
             description: "The number of messages to delete",
             type: "INTEGER",
+            minValue: 1,
         },
     ],
     run: async (interaction) => {

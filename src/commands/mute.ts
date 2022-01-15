@@ -17,6 +17,8 @@ export const mute: ChatInputCommand = {
             description: "The duration the user should be muted for, in minutes.", // TODO: add autocomplete with different time units
             type: "INTEGER",
             required: true,
+            minValue: 1,
+            maxValue: 40320, // 28 days
         },
         {
             name: "reason",

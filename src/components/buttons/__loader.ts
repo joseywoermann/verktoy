@@ -3,22 +3,20 @@ import { Collection } from "discord.js";
 import type { Button } from "#util/types";
 import { logger } from "#util/logger";
 
-// Load all buttons in the button/ directory
 const loadButtons = async (): Promise<Button[]> => {
-    const buttonsData: Button[] = [];
+    const buttons: Button[] = [];
     const buttonFiles = fs
         .readdirSync(`dist/components/buttons/`)
         .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
 
-    for (const file of buttonFiles) {
-        let button = await import(`./${file}`);
-        buttonsData.push(button[file.replace(".js", "")]);
-        logger.debug(
-            `[DISCORD]  Found button:  ${button[file.replace(".js", "")].data.customId ?? "<LINK-button>"}`
-        );
+    for (const buttonFile of buttonFiles) {
+        let file = await import(`./${buttonFile}`);
+        const button: Button = file[buttonFile.replace(".js", "")];
+        buttons.push(button);
+        logger.debug(`[DISCORD]  Found button:  ${button.data.customId ?? "<LINK-button>"}`);
     }
 
-    return buttonsData;
+    return buttons;
 };
 
 export const buttons = new Collection<string, Button>(

@@ -3,20 +3,20 @@ import { Collection } from "discord.js";
 import type { Select } from "#util/types";
 import { logger } from "#util/logger";
 
-// Load all selects in the selects/ directory
 const loadSelects = async (): Promise<Select[]> => {
-    const selectsData: Select[] = [];
+    const selects: Select[] = [];
     const selectFiles = fs
         .readdirSync(`dist/components/selects/`)
         .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
 
-    for (const file of selectFiles) {
-        let select = await import(`./${file}`);
-        selectsData.push(select[file.replace(".js", "")]);
-        logger.debug(`[DISCORD]  Found select:  ${select[file.replace(".js", "")].data.customId}`);
+    for (const selectFile of selectFiles) {
+        let file = await import(`./${selectFile}`);
+        const select: Select = file[selectFile.replace(".js", "")];
+        selects.push(select);
+        logger.debug(`[DISCORD]  Found select:  ${select.data.customId}`);
     }
 
-    return selectsData;
+    return selects;
 };
 
 export const selects = new Collection<string, Select>(

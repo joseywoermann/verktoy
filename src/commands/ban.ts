@@ -1,4 +1,3 @@
-import { Snowflake } from "discord.js";
 import { checkPermissions } from "#util/checkPermissions";
 import { handleError } from "#util/errorHandler";
 import type { ChatInputCommand } from "#util/types";
@@ -49,19 +48,17 @@ export const ban: ChatInputCommand = {
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
 
-        let user: Snowflake;
+        const method = interaction.options.getSubcommand();
 
-        const rawReason = interaction.options.get("reason")?.value;
-        const reason = `${rawReason ?? "None"} - ${interaction.user.tag}`;
+        const reason = interaction.options.get("reason")?.value;
+        const target = interaction.options.get("member");
 
-        if (interaction.options.getSubcommand() === "user") {
-            user = interaction.options.get("member")?.user.id;
-        } else if (interaction.options.getSubcommand() === "id") {
-            user = interaction.options.get("member")?.value.toString();
-        }
+        const user = method === "user" ? target?.user.id : target?.value.toString();
 
         try {
-            await interaction.guild.members.ban(user, { reason: reason });
+            await interaction.guild.members.ban(user, {
+                reason: `${reason ?? "None"} - ${interaction.user.tag}`,
+            });
             await interaction.reply({ content: `Successfully banned <@${user}>.` });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
