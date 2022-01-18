@@ -25,10 +25,10 @@
         "url": "https://github.com/joseywoermann/verktoy/issues"
     },
     "imports": {
-        "#buttons/*": "./dist/components/buttons/*.js",
-        "#selects/*": "./dist/components/selects/*.js",
-        "#commands/*": "./dist/commands/*.js",
-        "#util/*": "./dist/util/*.js"
+        "#buttons": "./dist/components/buttons/__exports.js",
+        "#selects": "./dist/components/selects/__exports.js",
+        "#commands": "./dist/commands/__exports.js",
+        "#util": "./dist/util/__exports.js"
     },
     "dependencies": {
         "@josey/logger": "^2.0.1",

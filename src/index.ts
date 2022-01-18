@@ -1,9 +1,7 @@
 import type { ApplicationCommandDataResolvable } from "discord.js";
-import { commands } from "#commands/__loader";
+import { commands } from "./commands/__loader.js";
 import { handleInteraction } from "./handlers/interaction.js";
-import { devServerId, isDev, presence, token } from "#util/constants";
-import { CustomClient } from "#util/modules/Client";
-import { logger } from "#util/logger";
+import { devServerId, isDev, presence, token, logger, CustomClient } from "#util";
 
 const client = new CustomClient();
 client.login(token);

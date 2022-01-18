@@ -1,6 +1,4 @@
-import { checkPermissions } from "#util/checkPermissions";
-import { handleError } from "#util/errorHandler";
-import { ChatInputCommand } from "#util/types";
+import { checkPermissions, ChatInputCommand, handleError } from "#util";
 
 export const unmute: ChatInputCommand = {
     name: "unmute",

@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
-import { ChatInputCommand } from "#util/types";
+import { ChatInputCommand } from "#util";
 
 export const weather: ChatInputCommand = {
     name: "weather",

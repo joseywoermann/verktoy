@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import { Collection } from "discord.js";
-import type { Command } from "#util/types";
-import { logger } from "#util/logger";
+import { Command, logger } from "#util";
 
 const loadCommands = async (): Promise<Command[]> => {
     const commands: Command[] = [];

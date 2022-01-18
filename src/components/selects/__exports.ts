@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import { Collection } from "discord.js";
-import type { Select } from "#util/types";
-import { logger } from "#util/logger";
+import { Select, logger } from "#util";
 
 const loadSelects = async (): Promise<Select[]> => {
     const selects: Select[] = [];

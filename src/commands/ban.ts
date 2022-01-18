@@ -1,6 +1,4 @@
-import { checkPermissions } from "#util/checkPermissions";
-import { handleError } from "#util/errorHandler";
-import type { ChatInputCommand } from "#util/types";
+import { checkPermissions, ChatInputCommand, handleError } from "#util";
 
 export const ban: ChatInputCommand = {
     name: "ban",

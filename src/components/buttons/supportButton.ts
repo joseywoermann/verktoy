@@ -1,5 +1,5 @@
 import { MessageButton } from "discord.js";
-import { Button } from "#util/types";
+import { Button } from "#util";
 
 export const supportButton: Button = {
     data: new MessageButton({

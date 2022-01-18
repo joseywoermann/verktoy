@@ -6,10 +6,10 @@
         "module": "esnext",
         "baseUrl": "./",
         "paths": {
-            "#buttons/*": ["./src/components/buttons/*"],
-            "#selects/*": ["./src/components/selects/*"],
-            "#commands/*": ["./src/commands/*"],
-            "#util/*": ["./src/util/*"]
+            "#buttons": ["./src/components/buttons/__exports"],
+            "#selects": ["./src/components/selects/__exports"],
+            "#commands": ["./src/commands/__exports"],
+            "#util": ["./src/util/__exports"]
         }
     },
     "include": ["src/**/*.ts", "src/commands/user/.keep.ts"]
