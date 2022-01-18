@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import { Collection } from "discord.js";
-import type { Button } from "#util/types";
-import { logger } from "#util/logger";
+import { Button, logger } from "#util";
 
 const loadButtons = async (): Promise<Button[]> => {
     const buttons: Button[] = [];
