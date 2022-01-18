@@ -8,7 +8,7 @@ import type {
 } from "discord.js";
 import { commands } from "../commands/__loader.js";
 import { buttons } from "../components/buttons/__loader.js";
-import { selects } from "../components/selects/__exports.js";
+import { selects } from "../components/selects/__loader.js";
 import { ChatInputCommand, MessageContextCommand, UserContextCommand, logger } from "#util";
 
 export const handleInteraction = async (interaction: Interaction): Promise<void> => {
