@@ -6,7 +6,7 @@ export const ping: ChatInputCommand = {
     type: "CHAT_INPUT",
     run: async (interaction) => {
         interaction.reply({
-            content: `Pong! ${interaction.client.ws.ping} ms`,
+            embeds: [{ title: `Pong! ${interaction.client.ws.ping} ms`, color: "#D329A0" }],
         });
     },
 };

@@ -18,6 +18,7 @@ export const weather: ChatInputCommand = {
         const embed = new MessageEmbed({
             description: block(tldr, "ansi"),
             footer: { text: location },
+            color: "#D329A0",
         });
 
         await interaction.editReply({ embeds: [embed] });

@@ -18,9 +18,11 @@ export const calculate: ChatInputCommand = {
         const [success, result] = calc(exp);
 
         if (success) {
-            await interaction.reply({ embeds: [{ title: `${result}`, description: `= ${exp}` }] });
+            await interaction.reply({
+                embeds: [{ title: `${result}`, description: `= ${exp}`, color: "#D329A0" }],
+            });
         } else {
-            await interaction.reply({ embeds: [{ title: `${result}` }] });
+            await interaction.reply({ embeds: [{ title: `${result}`, color: "RED" }] });
         }
     },
 };

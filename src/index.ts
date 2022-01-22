@@ -35,15 +35,6 @@ client.on("interactionCreate", async (interaction) => {
     handleInteraction(interaction);
 });
 
-// Statistics stuff from Statcord
 client.metrics.on("autopost-start", () => {
     logger.info(`[STATCORD] Started automatic statistics posting`);
 });
-
-// client.stats.on("post", (status) => {
-//     if (!status) {
-//         logger.debug(`[STATCORD] Successful statistics post`);
-//     } else {
-//         logger.error(status);
-//     }
-// });

@@ -41,7 +41,10 @@ export const define: ChatInputCommand = {
             const def = (await getDefinitions(word, "slang")) as SlangDefinition;
 
             if (!def) {
-                const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
+                const embed = new MessageEmbed({
+                    title: `No definition found for "${word}"`,
+                    color: "#D329A0",
+                });
                 await interaction.editReply({ embeds: [embed] });
                 return;
             }
@@ -49,6 +52,7 @@ export const define: ChatInputCommand = {
             const embed = new MessageEmbed({
                 title: def.word,
                 description: `${def.definition}`,
+                color: "#D329A0",
                 footer: {
                     text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
                 },
@@ -59,7 +63,10 @@ export const define: ChatInputCommand = {
             const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
 
             if (!def) {
-                const embed = new MessageEmbed({ title: `No definition found for "${word}"` });
+                const embed = new MessageEmbed({
+                    title: `No definition found for "${word}"`,
+                    color: "#D329A0",
+                });
                 await interaction.editReply({ embeds: [embed] });
                 return;
             }
@@ -77,6 +84,7 @@ export const define: ChatInputCommand = {
                 title: def.word,
                 fields: defFields,
                 footer: { text: `Source: dictionaryapi.dev` },
+                color: "#D329A0",
             });
 
             await interaction.editReply({ embeds: [embed] });

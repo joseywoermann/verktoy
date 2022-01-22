@@ -24,6 +24,7 @@ export const lyrics: ChatInputCommand = {
                 description: data.lyrics,
                 thumbnail: { url: data.thumbnail.genius },
                 footer: { text: `lyrics provided by genius.com` },
+                color: "#D329A0",
             });
             await interaction.reply({ embeds: [embed] });
         } else {
