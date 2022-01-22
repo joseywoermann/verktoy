@@ -6,7 +6,10 @@ const loadSelects = async (): Promise<Select[]> => {
     const selects: Select[] = [];
     const selectFiles = fs
         .readdirSync(`dist/components/selects/`)
-        .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
+        .filter(
+            (file) =>
+                file.endsWith(".js") && !file.startsWith("__loader.js") && !file.startsWith("__exports.js")
+        );
 
     for (const selectFile of selectFiles) {
         let file = await import(`./${selectFile}`);

@@ -6,7 +6,10 @@ const loadCommands = async (): Promise<Command[]> => {
     const commands: Command[] = [];
     const commandFiles = fs
         .readdirSync(`dist/commands`)
-        .filter((file) => file.endsWith(".js") && !file.startsWith("__loader.js"));
+        .filter(
+            (file) =>
+                file.endsWith(".js") && !file.startsWith("__loader.js") && !file.startsWith("__exports.js")
+        );
 
     for (const commandFile of commandFiles) {
         let file = await import(`./${commandFile}`);

@@ -1,6 +1,6 @@
 import { MessageActionRow, MessageEmbed, User } from "discord.js";
 import { ChatInputCommand, owner, formatDuration, fetchMetrics } from "#util";
-import { inviteButton, sourceButton, supportButton } from "src/components/buttons/__exports";
+import { inviteButton, sourceButton, supportButton } from "#buttons";
 
 export const info: ChatInputCommand = {
     name: "info",

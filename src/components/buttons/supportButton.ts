@@ -3,7 +3,7 @@ import { Button } from "#util";
 
 export const supportButton: Button = {
     data: new MessageButton({
-        label: "Get help",
+        label: "Support",
         style: "LINK",
         url: "https://github.com/joseywoermann/verktoy/issues",
     }),

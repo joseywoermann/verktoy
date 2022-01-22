@@ -3,7 +3,7 @@ import { Button } from "#util";
 
 export const sourceButton: Button = {
     data: new MessageButton({
-        label: "Source code",
+        label: "View source",
         style: "LINK",
         url: "https://github.com/joseywoermann/verktoy",
     }),
