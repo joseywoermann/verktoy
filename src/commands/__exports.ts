@@ -13,3 +13,6 @@ export * from "./unban.js";
 export * from "./unmute.js";
 export * from "./weather.js";
 export * from "./eightBall.js";
+export * from "./rps.js";
+export * from "./invite.js";
+export * from "./dice.js";
