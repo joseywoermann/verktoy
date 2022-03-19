@@ -5,7 +5,6 @@ import { randomInt } from "mathjs";
 export const dice: ChatInputCommand = {
     name: "roll",
     description: "Roll a dice",
-    type: "CHAT_INPUT",
     options: [
         {
             name: "min",

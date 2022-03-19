@@ -16,3 +16,4 @@ export * from "./eightBall.js";
 export * from "./rps.js";
 export * from "./invite.js";
 export * from "./dice.js";
+export * from "./help.js";
