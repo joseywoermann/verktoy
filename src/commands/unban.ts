@@ -16,6 +16,7 @@ export const unban: ChatInputCommand = {
             type: "STRING",
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
         await interaction.deferReply({ ephemeral: true });

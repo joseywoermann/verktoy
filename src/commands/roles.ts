@@ -43,7 +43,7 @@ export const roles: ChatInputCommand = {
             ],
         },
     ],
-
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MANAGE_ROLES"))) return;
         const method = interaction.options.getSubcommand();

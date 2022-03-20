@@ -5,6 +5,7 @@ import { creditsButton, inviteButton, sourceButton, supportButton } from "#butto
 export const info: ChatInputCommand = {
     name: "info",
     description: "Show bot statistics & information",
+    restricted: false,
     run: async (i) => {
         await i.deferReply();
         const data = await fetchMetrics(i.client.user.id);

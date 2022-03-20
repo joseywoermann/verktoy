@@ -5,7 +5,15 @@ import { ChatInputCommand } from "#util";
 export const weather: ChatInputCommand = {
     name: "weather",
     description: "View the weather for a given location",
-    options: [{ name: "location", description: "The city", type: "STRING", required: true }],
+    options: [
+        {
+            name: "location",
+            description: "The city",
+            type: "STRING",
+            required: true,
+        },
+    ],
+    restricted: false,
     run: async (interaction) => {
         await interaction.deferReply();
         const loc = interaction.options.get("location").value.toString();

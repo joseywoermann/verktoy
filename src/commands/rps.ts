@@ -26,6 +26,7 @@ export const rps: ChatInputCommand = {
             ],
         },
     ],
+    restricted: false,
     run: async (interaction) => {
         const userChoice = interaction.options.get("selection").value.toString() as RPSChoice;
         const botChoice = ["rock", "paper", "scissors"][Math.floor(Math.random() * 3)] as RPSChoice;

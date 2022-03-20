@@ -11,6 +11,7 @@ export const whois: ChatInputCommand = {
             type: "USER",
         },
     ],
+    restricted: false,
     run: async (interaction) => {
         try {
             const user = interaction.options.get("user")?.user ?? interaction.user;

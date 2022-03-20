@@ -17,6 +17,7 @@ export const kick: ChatInputCommand = {
             required: false,
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "KICK_MEMBERS"))) return;
 

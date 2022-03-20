@@ -13,6 +13,7 @@ export const qrcode: ChatInputCommand = {
             required: true,
         },
     ],
+    restricted: false,
     run: async (interaction) => {
         const input = interaction.options.get("url").value.toString();
 

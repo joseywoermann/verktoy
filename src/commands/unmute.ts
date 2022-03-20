@@ -16,6 +16,7 @@ export const unmute: ChatInputCommand = {
             type: "STRING",
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MODERATE_MEMBERS"))) return;
 

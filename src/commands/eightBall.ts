@@ -12,6 +12,7 @@ export const eightBall: ChatInputCommand = {
             required: true,
         },
     ],
+    restricted: false,
     run: async (interaction) => {
         const question = interaction.options.get("question").value.toString();
 

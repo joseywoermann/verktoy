@@ -12,6 +12,7 @@ export const slowmode: ChatInputCommand = {
             maxValue: 21600,
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MANAGE_CHANNELS"))) return;
         const delay = Number(interaction.options.get("delay").value);

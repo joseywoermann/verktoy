@@ -4,6 +4,7 @@ import { MessageEmbed } from "discord.js";
 export const invite: ChatInputCommand = {
     name: "invite",
     description: "Add this bot to your server.",
+    restricted: false,
     run: async (i) => {
         const embed = new MessageEmbed({
             title: "Add me to your server!",

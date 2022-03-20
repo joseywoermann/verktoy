@@ -11,6 +11,7 @@ export const clear: ChatInputCommand = {
             minValue: 1,
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MANAGE_MESSAGES"))) return;
 

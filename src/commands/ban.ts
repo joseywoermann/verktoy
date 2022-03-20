@@ -43,6 +43,7 @@ export const ban: ChatInputCommand = {
             ],
         },
     ],
+    restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
 

@@ -33,6 +33,7 @@ export const define: ChatInputCommand = {
             ],
         },
     ],
+    restricted: false,
     run: async (interaction) => {
         await interaction.deferReply();
         const word = interaction.options.get("word").value.toString();

@@ -15,6 +15,7 @@ import type {
  * This type includes the Slash Command data & the `run()` method
  */
 export interface ChatInputCommand extends ChatInputApplicationCommandData {
+    restricted: boolean;
     run: (interaction: CommandInteraction) => Promise<void>;
     autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
 }

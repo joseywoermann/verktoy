@@ -17,6 +17,7 @@ export const dice: ChatInputCommand = {
             type: "INTEGER",
         },
     ],
+    restricted: false,
     run: async (i) => {
         // allow custom ranges
         const options = {
