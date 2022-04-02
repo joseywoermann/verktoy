@@ -89,9 +89,7 @@ export const poll: ChatInputCommand = {
     ],
     run: async (interaction) => {
         const pollType = interaction.options.getSubcommand();
-        console.log(pollType);
-
-        const question = interaction.options.get("question").value;
+        const question = interaction.options.get("question").value as string;
 
         // Yes / No poll
         if (pollType === "yesno") {
