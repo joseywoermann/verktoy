@@ -6,11 +6,10 @@ import fetch from "node-fetch";
 // https://github.com/D3vd/Meme_Api#specify-subreddit
 export const meme: ChatInputCommand = {
     name: "meme",
-    description: "Show a random meme that may or may not be good",
+    description: "Show a random meme from Reddit",
     restricted: false,
     run: async (interaction) => {
         const data = await getMeme();
-        console.log(data);
 
         const embed = new MessageEmbed({
             title: `${data.title} (${data.subreddit})`,
