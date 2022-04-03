@@ -36,7 +36,7 @@ export const define: ChatInputCommand = {
     restricted: false,
     run: async (interaction) => {
         await interaction.deferReply();
-        const word = interaction.options.get("word").value.toString();
+        const word = interaction.options.get("word").value as string;
 
         if (interaction.options.getSubcommand() === "slang") {
             const def = (await getDefinitions(word, "slang")) as SlangDefinition;

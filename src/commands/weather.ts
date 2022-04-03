@@ -16,7 +16,7 @@ export const weather: ChatInputCommand = {
     restricted: false,
     run: async (interaction) => {
         await interaction.deferReply();
-        const loc = interaction.options.get("location").value.toString();
+        const loc = interaction.options.get("location").value as string;
 
         const rawData = await (await fetch(`https://wttr.in/${loc}`)).text();
         const tldr = rawData.split("┌")[0];

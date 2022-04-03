@@ -14,7 +14,7 @@ export const eightBall: ChatInputCommand = {
     ],
     restricted: false,
     run: async (interaction) => {
-        const question = interaction.options.get("question").value.toString();
+        const question = interaction.options.get("question").value as string;
 
         const answer = allResponses[Math.floor(Math.random() * allResponses.length)];
 

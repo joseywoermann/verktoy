@@ -15,7 +15,7 @@ export const qrcode: ChatInputCommand = {
     ],
     restricted: false,
     run: async (interaction) => {
-        const input = interaction.options.get("url").value.toString();
+        const input = interaction.options.get("url").value as string;
 
         await QRCode.toFile("./qrcode.png", input);
 

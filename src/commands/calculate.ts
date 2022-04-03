@@ -14,7 +14,7 @@ export const calculate: ChatInputCommand = {
     ],
     restricted: false,
     run: async (interaction) => {
-        const exp = interaction.options.get("expression").value.toString();
+        const exp = interaction.options.get("expression").value as string;
 
         const [success, result] = calc(exp);
 
