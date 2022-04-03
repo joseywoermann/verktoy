@@ -33,6 +33,7 @@ export const animal: ChatInputCommand = {
             title: `Here is a picture of a ${species === "red_panda" ? "red panda" : species}!`,
             image: { url: data.link },
             footer: { text: `Source: some-random-api.ml` },
+            color: "#D329A0",
         });
 
         await interaction.reply({ embeds: [embed] });
