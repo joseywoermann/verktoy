@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 
 export const rps: ChatInputCommand = {
@@ -37,7 +37,7 @@ export const rps: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: result,
             description: `You selected **${userChoice}**, the bot chose **${botChoice}**.`,
-            color: "#D329A0",
+            color: brandColor,
             thumbnail: { url: await getImage(userChoice) },
         });
 

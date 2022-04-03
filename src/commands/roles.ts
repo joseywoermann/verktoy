@@ -1,4 +1,5 @@
-import { checkPermissions, handleError, ChatInputCommand } from "#util";
+import { checkPermissions, handleError, ChatInputCommand, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const roles: ChatInputCommand = {
     name: "roles",
@@ -46,6 +47,7 @@ export const roles: ChatInputCommand = {
     restricted: true,
     run: async (interaction) => {
         if (!(await checkPermissions(interaction, "MANAGE_ROLES"))) return;
+
         const method = interaction.options.getSubcommand();
         const role = interaction.options.get("role").role;
         const user = interaction.options.get("user").user;
@@ -54,14 +56,20 @@ export const roles: ChatInputCommand = {
         try {
             if (method === "add") {
                 await member.roles.add(role?.id);
-                await interaction.reply({
-                    content: `Successfully added <@&${role.id}> to <@${user.id}>.`,
+
+                const embed = new MessageEmbed({
+                    description: `Successfully added <@&${role.id}> to <@${user.id}>.`,
+                    color: brandColor,
                 });
+                await interaction.reply({ embeds: [embed] });
             } else if (method === "remove") {
                 await member.roles.remove(role?.id);
-                await interaction.reply({
-                    content: `Successfully removed <@&${role.id}> from <@${user.id}>.`,
+
+                const embed = new MessageEmbed({
+                    description: `Successfully removed <@&${role.id}> from <@${user.id}>.`,
+                    color: brandColor,
                 });
+                await interaction.reply({ embeds: [embed] });
             }
         } catch (e) {
             await handleError(interaction, e as Error);

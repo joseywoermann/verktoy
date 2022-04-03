@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 
 export const eightBall: ChatInputCommand = {
@@ -21,7 +21,7 @@ export const eightBall: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: `${answer}`,
             description: `You asked: "${question}"`,
-            color: "#D329A0",
+            color: brandColor,
         });
 
         interaction.reply({ embeds: [embed] });

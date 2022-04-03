@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const mute: ChatInputCommand = {
     name: "mute",
@@ -36,14 +37,18 @@ export const mute: ChatInputCommand = {
 
         try {
             const member = await interaction.guild.members.fetch(userId);
-            await member.timeout(minutesToMS(duration), reason);
-            await interaction.reply({
-                content: `Timed out ${member} for ${duration} ${duration === 1 ? "minute" : "minutes"}.`,
+            await member.timeout(mintoMs(duration), reason);
+
+            const embed = new MessageEmbed({
+                description: `Timed out ${member} for ${duration} ${duration === 1 ? "minute" : "minutes"}.`,
+                color: brandColor,
             });
+
+            await interaction.reply({ embeds: [embed] });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
         }
     },
 };
 
-const minutesToMS = (minutes: number): number => minutes * 60 * 1000;
+const mintoMs = (minutes: number): number => minutes * 60 * 1000;

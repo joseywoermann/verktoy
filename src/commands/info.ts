@@ -1,5 +1,5 @@
 import { MessageActionRow, MessageEmbed, User } from "discord.js";
-import { ChatInputCommand, ownerID, formatDuration, fetchMetrics } from "#util";
+import { ChatInputCommand, ownerID, formatDuration, fetchMetrics, brandColor } from "#util";
 import { creditsButton, inviteButton, sourceButton, supportButton } from "#buttons";
 
 export const info: ChatInputCommand = {
@@ -26,7 +26,7 @@ export const info: ChatInputCommand = {
 
         const embed = new MessageEmbed({
             title: `Bot metrics & statistics:`,
-            color: "#D329A0",
+            color: brandColor,
             fields: [
                 { name: "User count", value: block(users), inline: true },
                 { name: "Server count", value: block(servers), inline: true },

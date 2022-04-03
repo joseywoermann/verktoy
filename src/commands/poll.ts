@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { Message, MessageEmbed } from "discord.js";
 
 export const poll: ChatInputCommand = {
@@ -95,7 +95,7 @@ export const poll: ChatInputCommand = {
         if (pollType === "yesno") {
             const embed = new MessageEmbed({
                 title: `${question}`,
-                color: "#D329A0",
+                color: brandColor,
             });
 
             const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
@@ -110,7 +110,7 @@ export const poll: ChatInputCommand = {
             const embed = new MessageEmbed({
                 title: `${question}`,
                 description: ``,
-                color: "#D329A0",
+                color: brandColor,
             });
 
             // remove the question from list of choices

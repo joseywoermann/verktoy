@@ -1,4 +1,4 @@
-import type { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 
 export const ping: ChatInputCommand = {
     name: "ping",
@@ -6,7 +6,12 @@ export const ping: ChatInputCommand = {
     restricted: false,
     run: async (interaction) => {
         interaction.reply({
-            embeds: [{ title: `Pong! ${interaction.client.ws.ping} ms`, color: "#D329A0" }],
+            embeds: [
+                {
+                    title: `Pong! ${interaction.client.ws.ping} ms`,
+                    color: brandColor,
+                },
+            ],
         });
     },
 };

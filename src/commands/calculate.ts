@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { evaluate } from "mathjs";
 
 export const calculate: ChatInputCommand = {
@@ -20,10 +20,17 @@ export const calculate: ChatInputCommand = {
 
         if (success) {
             await interaction.reply({
-                embeds: [{ title: `${result}`, description: `= ${exp}`, color: "#D329A0" }],
+                embeds: [{ title: `${result}`, description: `= ${exp}`, color: brandColor }],
             });
         } else {
-            await interaction.reply({ embeds: [{ title: `${result}`, color: "RED" }] });
+            await interaction.reply({
+                embeds: [
+                    {
+                        title: `${result}`,
+                        color: "RED",
+                    },
+                ],
+            });
         }
     },
 };

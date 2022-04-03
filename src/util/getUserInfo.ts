@@ -1,5 +1,12 @@
 import { CommandInteraction, ContextMenuInteraction, MessageEmbed, User } from "discord.js";
+import { brandColor } from "#util";
 
+/**
+ * Fetch all informantion about a user and generate a nice embed displaying that data.
+ * @param interaction
+ * @param user
+ * @returns
+ */
 export const getUserInfo = async (
     interaction: CommandInteraction | ContextMenuInteraction,
     user: User
@@ -36,7 +43,7 @@ export const getUserInfo = async (
             { name: "Server member since", value: `<t:${serverJoined}>`, inline: true },
         ],
         thumbnail: { url: user?.avatarURL() ?? user?.defaultAvatarURL },
-        color: "#D329A0",
+        color: brandColor,
     });
 
     return embed;

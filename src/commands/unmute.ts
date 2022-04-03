@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const unmute: ChatInputCommand = {
     name: "unmute",
@@ -27,10 +28,13 @@ export const unmute: ChatInputCommand = {
 
         try {
             const member = await interaction.guild.members.fetch(userId);
-            await member.timeout(null, reason);
-            await interaction.reply({
-                content: `Remove timeout from ${member}.`,
+            const embed = new MessageEmbed({
+                description: `Removed timeout from ${member}.`,
+                color: brandColor,
             });
+
+            await member.timeout(null, reason);
+            await interaction.reply({ embeds: [embed] });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
         }

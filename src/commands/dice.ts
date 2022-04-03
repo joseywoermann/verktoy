@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 import { randomInt } from "mathjs";
 
@@ -30,7 +30,7 @@ export const dice: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: `You rolled ${number}!`,
             footer: { text: `Range: ${options.min} - ${options.max}` },
-            color: "#D329A0",
+            color: brandColor,
         });
 
         await i.reply({ embeds: [embed] });

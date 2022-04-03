@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 
 export const invite: ChatInputCommand = {
@@ -9,7 +9,7 @@ export const invite: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: "Add me to your server!",
             url: `https://discord.com/oauth2/authorize?client_id=927279520959053824&permissions=8&scope=bot%20applications.commands`,
-            color: "#D329A0",
+            color: brandColor,
         });
         await i.reply({ embeds: [embed] });
     },

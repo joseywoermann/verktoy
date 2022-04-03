@@ -1,4 +1,4 @@
-import { Intents, PresenceData, Snowflake } from "discord.js";
+import { Intents, PresenceData } from "discord.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -15,3 +15,5 @@ export const presence: PresenceData = {
     status: "online",
     activities: [{ type: "LISTENING", name: "Slash Commands" }],
 };
+
+export const brandColor = "#D329A0";

@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const kick: ChatInputCommand = {
     name: "kick",
@@ -28,7 +29,13 @@ export const kick: ChatInputCommand = {
 
         try {
             await interaction.guild.members.kick(user, reason);
-            await interaction.reply({ content: `Successfully kicked <@${user}>.` });
+
+            const embed = new MessageEmbed({
+                description: `Successfully kicked <@${user}>.`,
+                color: brandColor,
+            });
+
+            await interaction.reply({ embeds: [embed] });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
         }

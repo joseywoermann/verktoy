@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { MessageEmbed } from "discord.js";
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 
 export const help: ChatInputCommand = {
     name: "help",
@@ -12,7 +12,7 @@ export const help: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: "Available commands:",
             description: `These are all the available commands.\n**Commands marked with an** \`[X]\` **are restricted and require elevated permissions.**\n`,
-            color: "#D329A0",
+            color: brandColor,
             footer: { text: "Additional functionality is provided through context menus" },
         });
 

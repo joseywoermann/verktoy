@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed, TextChannel } from "discord.js";
 
 export const slowmode: ChatInputCommand = {
     name: "slowmode",
@@ -6,7 +7,7 @@ export const slowmode: ChatInputCommand = {
     options: [
         {
             name: "delay",
-            description: "How many seconds the users have to wait before sending messages.",
+            description: "How many seconds the users have to wait before sending messages, 0 to remove it",
             type: "INTEGER",
             required: true,
             maxValue: 21600,
@@ -18,12 +19,13 @@ export const slowmode: ChatInputCommand = {
         const delay = Number(interaction.options.get("delay").value);
 
         try {
-            if (interaction.channel.type === "GUILD_TEXT") {
-                await interaction.channel.setRateLimitPerUser(delay);
-                await interaction.reply({ content: `Successfully set slowmode to ${delay} seconds.` });
-            } else {
-                await interaction.reply({ content: "wrong channel type" });
-            }
+            const embed = new MessageEmbed({
+                description: `Successfully set slowmode to ${delay} seconds.`,
+                color: brandColor,
+            });
+
+            await (interaction.channel as TextChannel).setRateLimitPerUser(delay);
+            await interaction.reply({ embeds: [embed] });
         } catch (e) {
             await handleError(interaction, e as Error);
         }

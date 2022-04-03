@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const ban: ChatInputCommand = {
     name: "ban",
@@ -49,16 +50,20 @@ export const ban: ChatInputCommand = {
 
         const method = interaction.options.getSubcommand();
 
-        const reason = interaction.options.get("reason")?.value;
+        const reason = interaction.options.get("reason")?.value ?? "None";
         const target = interaction.options.get("member");
 
         const user = method === "user" ? target?.user.id : target?.value.toString();
 
         try {
-            await interaction.guild.members.ban(user, {
-                reason: `${reason ?? "None"} - ${interaction.user.tag}`,
+            await interaction.guild.members.ban(user, { reason: `${reason} - ${interaction.user.tag}` });
+
+            const embed = new MessageEmbed({
+                description: `Successfully banned <@${user}>.`,
+                color: brandColor,
             });
-            await interaction.reply({ content: `Successfully banned <@${user}>.` });
+
+            await interaction.reply({ embeds: [embed] });
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
         }

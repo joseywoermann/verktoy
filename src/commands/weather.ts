@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 
 export const weather: ChatInputCommand = {
     name: "weather",
@@ -8,7 +8,7 @@ export const weather: ChatInputCommand = {
     options: [
         {
             name: "location",
-            description: "The city",
+            description: "The city / place",
             type: "STRING",
             required: true,
         },
@@ -26,7 +26,7 @@ export const weather: ChatInputCommand = {
         const embed = new MessageEmbed({
             description: block(tldr, "ansi"),
             footer: { text: location },
-            color: "#D329A0",
+            color: brandColor,
         });
 
         await interaction.editReply({ embeds: [embed] });

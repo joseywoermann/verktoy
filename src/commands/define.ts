@@ -1,6 +1,6 @@
-import { MessageEmbed } from "discord.js";
+import { CommandInteraction, MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 
 export const define: ChatInputCommand = {
     name: "define",
@@ -38,37 +38,32 @@ export const define: ChatInputCommand = {
         await interaction.deferReply();
         const word = interaction.options.get("word").value as string;
 
+        // maybe not the best source for serious questions
         if (interaction.options.getSubcommand() === "slang") {
             const def = (await getDefinitions(word, "slang")) as SlangDefinition;
 
             if (!def) {
-                const embed = new MessageEmbed({
-                    title: `No definition found for "${word}"`,
-                    color: "#D329A0",
-                });
-                await interaction.editReply({ embeds: [embed] });
+                await handleNoDefinitionFound(interaction, word);
                 return;
             }
 
             const embed = new MessageEmbed({
                 title: def.word,
-                description: `${def.definition}`,
-                color: "#D329A0",
+                description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
+                color: brandColor,
                 footer: {
                     text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
                 },
             });
 
             await interaction.editReply({ embeds: [embed] });
+
+            // apparently some people like more serious definitions
         } else if (interaction.options.getSubcommand() === "official") {
             const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
 
             if (!def) {
-                const embed = new MessageEmbed({
-                    title: `No definition found for "${word}"`,
-                    color: "#D329A0",
-                });
-                await interaction.editReply({ embeds: [embed] });
+                await handleNoDefinitionFound(interaction, word);
                 return;
             }
 
@@ -150,3 +145,12 @@ interface SlangDefinition {
     example: string;
     thumbs_down: number;
 }
+
+const handleNoDefinitionFound = async (interaction: CommandInteraction, word: string): Promise<void> => {
+    const embed = new MessageEmbed({
+        title: `No definition found for "${word}"`,
+        color: brandColor,
+    });
+    await interaction.editReply({ embeds: [embed] });
+    return;
+};

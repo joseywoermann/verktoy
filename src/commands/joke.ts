@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
 
@@ -13,7 +13,7 @@ export const joke: ChatInputCommand = {
         const embed = new MessageEmbed({
             title: `${data.joke}`,
             footer: { text: `Source: some-random-api.ml` },
-            color: "#D329A0",
+            color: brandColor,
         });
 
         await interaction.reply({ embeds: [embed] });

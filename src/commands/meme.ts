@@ -1,4 +1,4 @@
-import { ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand } from "#util";
 import { MessageEmbed } from "discord.js";
 import fetch from "node-fetch";
 
@@ -15,7 +15,7 @@ export const meme: ChatInputCommand = {
             title: `${data.title} (${data.subreddit})`,
             image: { url: `${data.url}` },
             footer: { text: `Source: ${data.postLink} | by ${data.author} | ${data.ups} upvotes` },
-            color: "#D329A0",
+            color: brandColor,
         });
 
         await interaction.reply({ embeds: [embed] });

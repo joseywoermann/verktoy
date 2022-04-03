@@ -1,4 +1,5 @@
-import { checkPermissions, ChatInputCommand, handleError } from "#util";
+import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
+import { MessageEmbed } from "discord.js";
 
 export const clear: ChatInputCommand = {
     name: "clear",
@@ -23,9 +24,12 @@ export const clear: ChatInputCommand = {
             if (interaction.channel.type !== "DM") {
                 const n = (await interaction.channel.bulkDelete(limit)).size;
 
-                await interaction.editReply({
-                    content: `Deleted ${n} ${n > 1 ? "messages" : "message"}.`,
+                const embed = new MessageEmbed({
+                    description: `Deleted ${n} ${n > 1 ? "messages" : "message"}.`,
+                    color: brandColor,
                 });
+
+                await interaction.editReply({ embeds: [embed] });
             }
         } catch (e: unknown) {
             await handleError(interaction, e as Error);
