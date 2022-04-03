@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { statisticsURL, APIResponse, Metrics } from "#util";
+import { statisticsURL } from "#util";
 import type { Snowflake } from "discord.js";
 
 /**
@@ -33,3 +33,46 @@ export const fetchMetrics = async (clientId: Snowflake): Promise<Metrics> => {
         };
     }
 };
+
+/**
+ * Raw response from the Statcord-API
+ */
+interface APIResponse {
+    error: boolean;
+    message?: string;
+    data?: RawMetrics[];
+    popular?: unknown[];
+}
+
+/**
+ * Raw metrics
+ */
+interface RawMetrics {
+    time: number;
+    servers: string;
+    users: string;
+    commands: string;
+    active: string;
+    custom1: string;
+    custom2: string;
+    memactive: string;
+    memload: string;
+    bandwidth: string;
+    cpuload: string;
+    count: number;
+    popular: Popular[];
+    votes: number;
+}
+
+interface Popular {
+    name: string;
+    count: string;
+}
+
+// we don't need those keys
+type StrippedMetrics = Omit<RawMetrics, "custom1" | "custom2" | "bandwidth" | "cpuload">;
+
+interface Metrics {
+    error: { occured: boolean; message?: string };
+    metrics?: StrippedMetrics;
+}
