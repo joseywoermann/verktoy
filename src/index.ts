@@ -35,6 +35,14 @@ client.on("interactionCreate", async (interaction) => {
     handleInteraction(interaction);
 });
 
+client.on("messageCreate", async (msg) => {
+    if (msg.author.id === client.user.id) return;
+
+    if (msg.content === "h") {
+        await msg.reply({ content: "https://twitter.com/telegram/status/1469315579777540098" });
+    }
+});
+
 client.metrics.on("autopost-start", () => {
     logger.info(`[STATCORD] Started automatic statistics posting`);
 });
