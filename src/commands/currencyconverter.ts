@@ -61,13 +61,22 @@ export const currencyconverter: ChatInputCommand = {
         const result = await converter.convert(base, target, amount);
 
         const embed = new MessageEmbed({
-            title: `${amount} ${base} equals ${result.toFixed(2)} ${target}`,
+            title: `${amount} ${await findName(base)} equals ${result.toFixed(2)} ${await findName(target)}`,
             footer: { text: "Data provided by currencyconverterapi.com" },
             color: brandColor,
         });
 
         await interaction.reply({ embeds: [embed] });
     },
+};
+
+const findName = async (code: string): Promise<string> => {
+    for (let i = 0; i < currencies.length; i++) {
+        if (currencies[i].id === code) {
+            return currencies[i].currencyName;
+        }
+    }
+    return "Unknown currency";
 };
 
 interface Currency {
