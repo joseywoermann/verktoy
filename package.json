@@ -9,7 +9,7 @@
         "ts:dev": "tsc --watch",
         "dev": "nodemon .",
         "prod": "node .",
-        "start": "npm run build && npm run prod",
+        "start": "npm run ts:build && npm run prod",
         "deploy": "node dist/deploy.js",
         "format": "prettier . --write",
         "clean:all": "rmdir /S dist && rmdir /S node_modules",
