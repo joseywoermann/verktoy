@@ -1,4 +1,5 @@
 export * from "./modules/Client.js";
+export * from "./modules/CurrencyConverter.js";
 export * from "./checkPermissions.js";
 export * from "./constants.js";
 export * from "./errorHandler.js";
