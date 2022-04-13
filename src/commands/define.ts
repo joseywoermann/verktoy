@@ -4,7 +4,7 @@ import { brandColor, ChatInputCommand } from "#util";
 
 export const define: ChatInputCommand = {
     name: "define",
-    description: "Look up a definition of a word on urbandictionary.com",
+    description: "Need to know the meaning of a word?",
     options: [
         {
             name: "slang",

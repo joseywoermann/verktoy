@@ -8,3 +8,4 @@ export * from "./getUserInfo.js";
 export * from "./logger.js";
 export * from "./metrics.js";
 export * from "./types.js";
+export * from "./randomNumber.js";

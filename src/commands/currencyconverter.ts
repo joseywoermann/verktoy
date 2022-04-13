@@ -4,7 +4,7 @@ import { CurrencyConverter } from "#util";
 
 export const currencyconverter: ChatInputCommand = {
     name: "convertcurrency",
-    description: "Convert a currency to another currency",
+    description: "Convert one currency into another",
     options: [
         {
             name: "base",
