@@ -1,5 +1,4 @@
-import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { ChatInputCommand } from "#util";
 import * as QRCode from "qrcode";
 
 export const qrcode: ChatInputCommand = {
@@ -19,11 +18,6 @@ export const qrcode: ChatInputCommand = {
 
         await QRCode.toFile("./qrcode.png", input);
 
-        const embed = new MessageEmbed({
-            title: "test",
-            image: { url: "attachment://qrcode.png" },
-            color: brandColor,
-        });
-        await interaction.reply({ embeds: [embed] });
+        await interaction.reply({ files: [{ attachment: "./qrcode.png" }] });
     },
 };
