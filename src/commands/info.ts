@@ -42,9 +42,9 @@ export const info: ChatInputCommand = {
                     value: block(`/${popular[0].name} | Run ${popular[0].count} times`),
                     inline: true,
                 },
-                { name: "Owner", value: block(`${owner?.tag} (ID: ${owner?.id})`) },
+                { name: "Owner", value: block(`${owner?.tag} | ID: ${owner?.id}`) },
                 { name: "Library", value: block("discord.js v13"), inline: true },
-                { name: "Bot version", value: block("v0.1.0"), inline: true },
+                { name: "Bot version", value: block("v1.0.0"), inline: true },
                 { name: "Memory usage", value: `${block(`${memUsage} MB`)}`, inline: true },
             ],
         });
