@@ -8,7 +8,7 @@ export const invite: ChatInputCommand = {
     run: async (i) => {
         const embed = new MessageEmbed({
             title: "Add me to your server!",
-            url: `https://discord.com/oauth2/authorize?client_id=927279520959053824&permissions=8&scope=bot%20applications.commands`,
+            url: `https://discord.com/oauth2/authorize?client_id=927279520959053824&permissions=1504311569495&scope=bot%20applications.commands`,
             color: brandColor,
         });
         await i.reply({ embeds: [embed] });
