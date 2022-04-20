@@ -27,7 +27,7 @@ export const fetchMetrics = async (clientId: Snowflake): Promise<Metrics> => {
                 memactive: res.data[0]?.memactive,
                 memload: res.data[0]?.memload,
                 count: res.data[0]?.count,
-                popular: res.data[0]?.popular,
+                popular: res.popular,
                 votes: res.data[0]?.votes,
             },
         };
@@ -41,7 +41,7 @@ interface APIResponse {
     error: boolean;
     message?: string;
     data?: RawMetrics[];
-    popular?: unknown[];
+    popular?: Popular[];
 }
 
 /**
