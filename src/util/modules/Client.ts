@@ -6,10 +6,10 @@ export class CustomClient extends DiscordClient {
     /**
      * The Statcord-client for metrics
      */
-    metrics: StatcordClient;
+    // metrics: StatcordClient;
 
     constructor() {
         super({ intents: intents });
-        this.metrics = new StatcordClient({ client: this, key: statcordToken });
+        // this.metrics = new StatcordClient({ client: this, key: statcordToken });
     }
 }

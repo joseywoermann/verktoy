@@ -9,7 +9,7 @@ client.login(token);
 client.once("ready", async () => {
     logger.info(`[DISCORD]  Logged in as "${client.user.tag}"`);
     if (!isDev) {
-        client.metrics.autopost();
+        // client.metrics.autopost();
     }
     client.user.setPresence(presence);
 
@@ -30,7 +30,7 @@ client.on("interactionCreate", async (interaction) => {
         logger.debug(`[DISCORD]  Handling interaction ${interaction.id} of type ${interaction.type}`);
     }
     if (interaction.isCommand() && !isDev) {
-        await client.metrics.postCommand(interaction.commandName, interaction.user.id);
+        // await client.metrics.postCommand(interaction.commandName, interaction.user.id);
     }
     handleInteraction(interaction);
 });
@@ -43,6 +43,6 @@ client.on("messageCreate", async (msg) => {
     }
 });
 
-client.metrics.on("autopost-start", () => {
-    logger.info(`[STATCORD] Started automatic statistics posting`);
-});
+// client.metrics.on("autopost-start", () => {
+//     logger.info(`[STATCORD] Started automatic statistics posting`);
+// });
