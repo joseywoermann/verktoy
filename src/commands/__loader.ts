@@ -13,7 +13,6 @@ const loadCommands = async (): Promise<Command[]> => {
 
     for (const commandFile of commandFiles) {
         let file = await import(`./${commandFile}`);
-        logger.debug(file)
         const command: Command = file[commandFile.replace(".js", "")];
         commands.push(command);
         logger.debug(`[DISCORD]  Found command: ${command.name}`);
