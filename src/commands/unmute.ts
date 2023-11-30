@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const unmute: ChatInputCommand = {
     name: "unmute",
@@ -8,18 +8,18 @@ export const unmute: ChatInputCommand = {
         {
             name: "user",
             description: "The user to unmute",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
             required: true,
         },
         {
             name: "reason",
             description: "The reaosn why the user should be unmuted.",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
         },
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "MODERATE_MEMBERS"))) return;
+        if (!(await checkPermissions(interaction, "ModerateMembers"))) return;
 
         const userId = interaction.options.get("user").user.id;
 
@@ -28,7 +28,7 @@ export const unmute: ChatInputCommand = {
 
         try {
             const member = await interaction.guild.members.fetch(userId);
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 description: `Removed timeout from ${member}.`,
                 color: brandColor,
             });

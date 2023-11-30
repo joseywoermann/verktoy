@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import { CurrencyConverter } from "#util";
 
 export const currencyconverter: ChatInputCommand = {
@@ -9,21 +9,21 @@ export const currencyconverter: ChatInputCommand = {
         {
             name: "base",
             description: "The currency to convert from. (Start typing to search a currency)",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             autocomplete: true,
             required: true,
         },
         {
             name: "target",
             description: "The currency to convert to. (Start typing to search a currency)",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             autocomplete: true,
             required: true,
         },
         {
             name: "amount",
             description: "The amount of money to convert",
-            type: "NUMBER",
+            type: ApplicationCommandOptionType.Number,
             required: true,
         },
     ],
@@ -60,7 +60,7 @@ export const currencyconverter: ChatInputCommand = {
         const converter = new CurrencyConverter();
         const result = await converter.convert(base, target, amount);
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `${amount} ${await findName(base)} equals ${result.toFixed(2)} ${await findName(target)}`,
             footer: { text: "Data provided by currencyconverterapi.com" },
             color: brandColor,

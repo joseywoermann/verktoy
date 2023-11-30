@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 
 // TODO: add possibility to specify subreddit
@@ -11,7 +11,7 @@ export const meme: ChatInputCommand = {
     run: async (interaction) => {
         const data = await getMeme();
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `${data.title} (${data.subreddit})`,
             image: { url: `${data.url}` },
             footer: { text: `Source: ${data.postLink} | by ${data.author} | ${data.ups} upvotes` },

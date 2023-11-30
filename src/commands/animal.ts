@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import fetch from "node-fetch";
 
 export const animal: ChatInputCommand = {
@@ -9,7 +9,7 @@ export const animal: ChatInputCommand = {
         {
             name: "species",
             description: "Select a species",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: [
                 { name: "Bird", value: "birb" },
@@ -29,7 +29,7 @@ export const animal: ChatInputCommand = {
         const res = await fetch(`https://some-random-api.ml/img/${species}`);
         const data = (await res.json()) as { link: string };
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `Here is a picture of a ${species === "red_panda" ? "red panda" : species}!`,
             image: { url: data.link },
             footer: { text: `Source: some-random-api.ml` },

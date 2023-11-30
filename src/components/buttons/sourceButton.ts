@@ -1,10 +1,10 @@
-import { MessageButton } from "discord.js";
+import { ButtonBuilder, ButtonStyle } from "discord.js";
 import { Button } from "#util";
 
 export const sourceButton: Button = {
-    data: new MessageButton({
+    data: new ButtonBuilder({
         label: "View source",
-        style: "LINK",
+        style: ButtonStyle.Link,
         url: "https://github.com/joseywoermann/verktoy",
     }),
     run: async () => {},

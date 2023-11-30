@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const kick: ChatInputCommand = {
     name: "kick",
@@ -8,19 +8,19 @@ export const kick: ChatInputCommand = {
         {
             name: "member",
             description: "The user who should be kicked",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
             required: true,
         },
         {
             name: "reason",
             description: "The reason for the kick",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: false,
         },
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "KICK_MEMBERS"))) return;
+        if (!(await checkPermissions(interaction, "KickMembers"))) return;
 
         const user = interaction.options.get("member").user.id;
 
@@ -30,7 +30,7 @@ export const kick: ChatInputCommand = {
         try {
             await interaction.guild.members.kick(user, reason);
 
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 description: `Successfully kicked <@${user}>.`,
                 color: brandColor,
             });

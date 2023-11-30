@@ -1,5 +1,5 @@
-import { ChatInputCommand, handleError } from "#util";
-import { getUserInfo } from "#util";
+import { ChatInputCommand, handleError, getUserInfo } from "#util";
+import { ApplicationCommandOptionType } from "discord.js";
 
 export const whois: ChatInputCommand = {
     name: "whois",
@@ -8,7 +8,7 @@ export const whois: ChatInputCommand = {
         {
             name: "user",
             description: "The user",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
         },
     ],
     restricted: false,

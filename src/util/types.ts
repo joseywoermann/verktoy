@@ -3,10 +3,10 @@ import type {
     ButtonInteraction,
     ChatInputApplicationCommandData,
     CommandInteraction,
-    ContextMenuInteraction,
+    ContextMenuCommandInteraction,
     MessageApplicationCommandData,
-    MessageButton,
-    MessageSelectMenu,
+    ButtonBuilder,
+    StringSelectMenuBuilder,
     SelectMenuInteraction,
     UserApplicationCommandData,
 } from "discord.js";
@@ -24,14 +24,14 @@ export interface ChatInputCommand extends ChatInputApplicationCommandData {
  * This type includes the Context Menu data for messages & the `run()` method
  */
 export interface MessageContextCommand extends MessageApplicationCommandData {
-    run: (interaction: ContextMenuInteraction) => Promise<void>;
+    run: (interaction: ContextMenuCommandInteraction) => Promise<void>;
 }
 
 /**
  * This type includes the Context Menu data for users & the `run()` method
  */
 export interface UserContextCommand extends UserApplicationCommandData {
-    run: (interaction: ContextMenuInteraction) => Promise<void>;
+    run: (interaction: ContextMenuCommandInteraction) => Promise<void>;
 }
 
 /**
@@ -43,7 +43,7 @@ export type Command = ChatInputCommand | MessageContextCommand | UserContextComm
  * This type includes the Button data and the `run()` method
  */
 export interface Button {
-    data: MessageButton;
+    data: ButtonBuilder;
     run: (interaction: ButtonInteraction) => Promise<void>;
 }
 
@@ -51,7 +51,7 @@ export interface Button {
  * This type includes the Select data and the `run()` method
  */
 export interface Select {
-    data: MessageSelectMenu;
+    data: StringSelectMenuBuilder;
     run: (interaction: SelectMenuInteraction) => Promise<void>;
 }
 

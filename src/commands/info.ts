@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageEmbed, User } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, CommandInteraction, EmbedBuilder, User } from "discord.js";
 import { ChatInputCommand, ownerID, formatDuration, fetchMetrics, brandColor } from "#util";
 import { creditsButton, inviteButton, sourceButton, supportButton } from "#buttons";
 
@@ -6,7 +6,7 @@ export const info: ChatInputCommand = {
     name: "info",
     description: "Show bot statistics & information",
     restricted: false,
-    run: async (i) => {
+    run: async (i: CommandInteraction) => {
         await i.deferReply();
         const data = await fetchMetrics(i.client.user.id);
 
@@ -24,7 +24,7 @@ export const info: ChatInputCommand = {
 
         const owner = (await i.client.users.fetch(ownerID)) as User;
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `Bot metrics & statistics:`,
             color: brandColor,
             fields: [
@@ -52,14 +52,14 @@ export const info: ChatInputCommand = {
         await i.editReply({
             embeds: [embed],
             components: [
-                new MessageActionRow({
-                    components: [
-                        inviteButton.data,
-                        supportButton.data,
-                        sourceButton.data,
-                        creditsButton.data,
-                    ],
-                }),
+                new ActionRowBuilder<ButtonBuilder>({
+                components: [
+                    inviteButton.data,
+                    supportButton.data,
+                    sourceButton.data,
+                    creditsButton.data,
+                ],
+            })
             ],
         });
     },

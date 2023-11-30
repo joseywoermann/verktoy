@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import fetch from "node-fetch";
 import { brandColor, ChatInputCommand } from "#util";
 
@@ -9,12 +9,12 @@ export const define: ChatInputCommand = {
         {
             name: "slang",
             description: "Use urbandictionary.com",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "word",
                     description: "The word to define",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
             ],
@@ -22,12 +22,12 @@ export const define: ChatInputCommand = {
         {
             name: "official",
             description: "Use an official dictionary",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "word",
                     description: "The word to define",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
             ],
@@ -35,56 +35,57 @@ export const define: ChatInputCommand = {
     ],
     restricted: false,
     run: async (interaction) => {
-        await interaction.deferReply();
-        const word = interaction.options.get("word").value as string;
+        // await interaction.deferReply();
+        // const word = interaction.options.get("word").value as string;
 
-        // maybe not the best source for serious questions
-        if (interaction.options.getSubcommand() === "slang") {
-            const def = (await getDefinitions(word, "slang")) as SlangDefinition;
+        // // maybe not the best source for serious questions
+        // if (interaction.options.getSubcommand() === "slang") {
+        //     const def = (await getDefinitions(word, "slang")) as SlangDefinition;
 
-            if (!def) {
-                await handleNoDefinitionFound(interaction, word);
-                return;
-            }
+        //     if (!def) {
+        //         await handleNoDefinitionFound(interaction, word);
+        //         return;
+        //     }
 
-            const embed = new MessageEmbed({
-                title: def.word,
-                description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
-                color: brandColor,
-                footer: {
-                    text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
-                },
-            });
+        //     const embed = new EmbedBuilder({
+        //         title: def.word,
+        //         description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
+        //         color: brandColor,
+        //         footer: {
+        //             text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
+        //         },
+        //     });
 
-            await interaction.editReply({ embeds: [embed] });
+        //     await interaction.editReply({ embeds: [embed] });
 
-            // apparently some people like more serious definitions
-        } else if (interaction.options.getSubcommand() === "official") {
-            const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
+        //     // apparently some people like more serious definitions
+        // } else if (interaction.options.getSubcommand() === "official") {
+        //     const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
 
-            if (!def) {
-                await handleNoDefinitionFound(interaction, word);
-                return;
-            }
+        //     if (!def) {
+        //         await handleNoDefinitionFound(interaction, word);
+        //         return;
+        //     }
 
-            const defFields: { name: string; value: string }[] = [];
+        //     const defFields: { name: string; value: string }[] = [];
 
-            def.meanings.forEach((meaning) => {
-                defFields.push({
-                    name: `Type: ${meaning.partOfSpeech}`,
-                    value: `Definition: ${meaning.definitions[0].definition}`,
-                });
-            });
+        //     def.meanings.forEach((meaning) => {
+        //         defFields.push({
+        //             name: `Type: ${meaning.partOfSpeech}`,
+        //             value: `Definition: ${meaning.definitions[0].definition}`,
+        //         });
+        //     });
 
-            const embed = new MessageEmbed({
-                title: def.word,
-                fields: defFields,
-                footer: { text: `Source: dictionaryapi.dev` },
-                color: "#D329A0",
-            });
+        //     const embed = new EmbedBuilder({
+        //         title: def.word,
+        //         fields: defFields,
+        //         footer: { text: `Source: dictionaryapi.dev` },
+        //         color: brandColor,
+        //     });
 
-            await interaction.editReply({ embeds: [embed] });
-        }
+        //     await interaction.editReply({ embeds: [embed] });
+        // }
+        await interaction.reply("hi")
     },
 };
 
@@ -147,7 +148,7 @@ interface SlangDefinition {
 }
 
 const handleNoDefinitionFound = async (interaction: CommandInteraction, word: string): Promise<void> => {
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
         title: `No definition found for "${word}"`,
         color: brandColor,
     });

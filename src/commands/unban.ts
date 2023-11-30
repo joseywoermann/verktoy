@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const unban: ChatInputCommand = {
     name: "unban",
@@ -8,18 +8,18 @@ export const unban: ChatInputCommand = {
         {
             name: "user",
             description: "The user who should be unbanned",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
         },
         {
             name: "reason",
             description: "The reaosn why the user should be unmuted.",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
         },
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
+        if (!(await checkPermissions(interaction, "BanMembers"))) return;
         await interaction.deferReply();
 
         const query = interaction.options.get("user").value as string;
@@ -34,7 +34,7 @@ export const unban: ChatInputCommand = {
 
                 if (query === `${username}#${discriminator}`) {
                     try {
-                        const embed = new MessageEmbed({
+                        const embed = new EmbedBuilder({
                             description: `Successfully unbanned <@${id}>.`,
                             color: brandColor,
                         });

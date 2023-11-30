@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandType } from "discord.js";
 import { brandColor, ChatInputCommand } from "#util";
 
 export const help: ChatInputCommand = {
@@ -9,20 +9,26 @@ export const help: ChatInputCommand = {
     run: async (i) => {
         const commands = await listCommands();
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: "Available commands:",
-            description: `These are all the available commands.\n**Commands marked with an** \`[X]\` **are restricted and require elevated permissions.**\n`,
             color: brandColor,
             footer: { text: "Additional functionality is provided through context menus" },
         });
 
-        embed.description += "```\n";
+        let desc  =`These are all the available commands.\n**Commands marked with an** \`[X]\` **are restricted and require elevated permissions.**\n`
+        
+        // list commands
+        desc += "```\n";
 
         commands.forEach((cmd) => {
-            embed.description += `${cmd.restricted ? "[X] " : "[ ] "}/${cmd.name}: ${cmd.description}\n`;
+            desc += `${cmd.restricted ? "[X] " : "[ ] "}/${cmd.name}: ${cmd.description}\n`;
         });
 
-        embed.description += "```";
+        desc += "```";
+
+
+
+        embed.setDescription(desc)
 
         await i.reply({ embeds: [embed] });
     },
@@ -41,7 +47,7 @@ const listCommands = async (): Promise<ChatInputCommand[]> => {
         let file = await import(`./${commandFile}`);
         const command: ChatInputCommand = file[commandFile.replace(".js", "")];
 
-        if (command.type === "CHAT_INPUT" || command.type === undefined) {
+        if (command.type === ApplicationCommandType.ChatInput || command.type === undefined) {
             commands.push(command);
         }
     }

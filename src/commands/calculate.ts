@@ -1,5 +1,6 @@
 import { brandColor, ChatInputCommand } from "#util";
 import { evaluate } from "mathjs";
+import { ApplicationCommandOptionType, Colors } from "discord.js";
 
 export const calculate: ChatInputCommand = {
     name: "calculate",
@@ -8,7 +9,7 @@ export const calculate: ChatInputCommand = {
         {
             name: "expression",
             description: "What do you want to calculate?",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
         },
     ],
@@ -27,7 +28,7 @@ export const calculate: ChatInputCommand = {
                 embeds: [
                     {
                         title: `${result}`,
-                        color: "RED",
+                        color: Colors.Red,
                     },
                 ],
             });

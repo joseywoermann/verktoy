@@ -15,7 +15,7 @@ const loadButtons = async (): Promise<Button[]> => {
         let file = await import(`./${buttonFile}`);
         const button: Button = file[buttonFile.replace(".js", "")];
         buttons.push(button);
-        logger.debug(`[DISCORD]  Found button:  ${button.data.customId ?? "<LINK-button>"}`);
+        logger.debug(`[DISCORD]  Found button:  ${String(button.data) ?? "<LINK-button>"}`);
     }
 
     return buttons;
@@ -24,7 +24,7 @@ const loadButtons = async (): Promise<Button[]> => {
 export const buttons = new Collection<string, Button>(
     Object.entries(
         (await loadButtons()).reduce((all, button) => {
-            return { ...all, [button.data.customId]: button };
+            return { ...all, [String(button.data)]: button };
         }, {} as Record<string, Button>)
     )
 );
