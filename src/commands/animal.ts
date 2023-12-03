@@ -1,5 +1,5 @@
-import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { brandColor, ChatInputCommand, logger } from "#util";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import fetch from "node-fetch";
 
 export const animal: ChatInputCommand = {
@@ -9,10 +9,10 @@ export const animal: ChatInputCommand = {
         {
             name: "species",
             description: "Select a species",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: [
-                { name: "Bird", value: "birb" },
+                { name: "Bird", value: "bird" },
                 { name: "Cat", value: "cat" },
                 { name: "Dog", value: "dog" },
                 { name: "Fox", value: "fox" },
@@ -26,12 +26,14 @@ export const animal: ChatInputCommand = {
     run: async (interaction) => {
         const species = interaction.options.get("species").value as string;
 
-        const res = await fetch(`https://some-random-api.ml/img/${species}`);
-        const data = (await res.json()) as { link: string };
+        // website doesn't have content
 
-        const embed = new MessageEmbed({
+        const res = await fetch(`https://some-random-api.ml/animal/${species}`);
+        const data = (await res.json()) as { image: string; fact: string };
+
+        const embed = new EmbedBuilder({
             title: `Here is a picture of a ${species === "red_panda" ? "red panda" : species}!`,
-            image: { url: data.link },
+            image: { url: data.image },
             footer: { text: `Source: some-random-api.ml` },
             color: brandColor,
         });

@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js";
+import { CommandInteraction, EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import fetch from "node-fetch";
 import { brandColor, ChatInputCommand } from "#util";
 
@@ -9,12 +9,12 @@ export const define: ChatInputCommand = {
         {
             name: "slang",
             description: "Use urbandictionary.com",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "word",
                     description: "The word to define",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
             ],
@@ -22,12 +22,12 @@ export const define: ChatInputCommand = {
         {
             name: "official",
             description: "Use an official dictionary",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "word",
                     description: "The word to define",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
             ],
@@ -36,6 +36,8 @@ export const define: ChatInputCommand = {
     restricted: false,
     run: async (interaction) => {
         await interaction.deferReply();
+        if (!interaction.isChatInputCommand()) return;
+
         const word = interaction.options.get("word").value as string;
 
         // maybe not the best source for serious questions
@@ -47,7 +49,7 @@ export const define: ChatInputCommand = {
                 return;
             }
 
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 title: def.word,
                 description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
                 color: brandColor,
@@ -76,11 +78,11 @@ export const define: ChatInputCommand = {
                 });
             });
 
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 title: def.word,
                 fields: defFields,
                 footer: { text: `Source: dictionaryapi.dev` },
-                color: "#D329A0",
+                color: brandColor,
             });
 
             await interaction.editReply({ embeds: [embed] });
@@ -90,7 +92,7 @@ export const define: ChatInputCommand = {
 
 const getDefinitions = async (
     query: string,
-    type: "slang" | "official"
+    type: "slang" | "official",
 ): Promise<SlangDefinition | OfficialDefinitionEntry> => {
     if (type === "slang") {
         const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`);
@@ -147,7 +149,7 @@ interface SlangDefinition {
 }
 
 const handleNoDefinitionFound = async (interaction: CommandInteraction, word: string): Promise<void> => {
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
         title: `No definition found for "${word}"`,
         color: brandColor,
     });

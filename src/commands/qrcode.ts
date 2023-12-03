@@ -1,5 +1,6 @@
 import { ChatInputCommand } from "#util";
 import * as QRCode from "qrcode";
+import { ApplicationCommandOptionType } from "discord.js"
 
 export const qrcode: ChatInputCommand = {
     name: "qrcode",
@@ -8,7 +9,7 @@ export const qrcode: ChatInputCommand = {
         {
             name: "url",
             description: "The URL (or text) to store in the QR code",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
         },
     ],

@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const poll: ChatInputCommand = {
     name: "poll",
@@ -9,66 +9,66 @@ export const poll: ChatInputCommand = {
         {
             name: "generic",
             description: "Create a generic poll and specify choices",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "question",
                     description: "What do you want to ask?",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
                 {
                     name: "choice1",
                     description: "Choice number 1",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
                 {
                     name: "choice2",
                     description: "Choice number 2",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
                 {
                     name: "choice3",
                     description: "Choice number 3",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice4",
                     description: "Choice number 4",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice5",
                     description: "Choice number 5",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice6",
                     description: "Choice number 6",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice7",
                     description: "Choice number 7",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice8",
                     description: "Choice number 8",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
                 {
                     name: "choice9",
                     description: "Choice number 9",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
             ],
@@ -76,24 +76,25 @@ export const poll: ChatInputCommand = {
         {
             name: "yesno",
             description: "Create a simple yes/no poll",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "question",
                     description: "What do you want to ask?",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
             ],
         },
     ],
     run: async (interaction) => {
+        if (!interaction.isChatInputCommand()) return;
         const pollType = interaction.options.getSubcommand();
         const question = interaction.options.get("question").value as string;
 
         // Yes / No poll
         if (pollType === "yesno") {
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 title: `${question}`,
                 color: brandColor,
             });
@@ -107,21 +108,24 @@ export const poll: ChatInputCommand = {
 
         // A poll with user-defined choices
         if (pollType === "generic") {
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 title: `${question}`,
-                description: ``,
                 color: brandColor,
             });
 
             // remove the question from list of choices
             const choices = interaction.options.data[0].options.filter(
-                (choice) => choice.name !== "question"
+                (choice) => choice.name !== "question",
             );
+
+            let desc = "";
 
             // construct embed
             choices.forEach((choice, i) => {
-                embed.description += `${emojis[i]}: ${choice.value}\n`;
+                desc += `${emojis[i]}: ${choice.value}\n`;
             });
+
+            embed.setDescription(desc);
 
             const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
 

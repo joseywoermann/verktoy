@@ -1,5 +1,5 @@
 import { checkPermissions, handleError, ChatInputCommand, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const roles: ChatInputCommand = {
     name: "roles",
@@ -8,18 +8,18 @@ export const roles: ChatInputCommand = {
         {
             name: "add",
             description: "Add roles to a user",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "role",
                     description: "The role to add",
-                    type: "ROLE",
+                    type: ApplicationCommandOptionType.Role,
                     required: true,
                 },
                 {
                     name: "user",
                     description: "The user to add the role to",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true,
                 },
             ],
@@ -27,18 +27,18 @@ export const roles: ChatInputCommand = {
         {
             name: "remove",
             description: "Remove roles to a user",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "role",
                     description: "The role to remove",
-                    type: "ROLE",
+                    type: ApplicationCommandOptionType.Role,
                     required: true,
                 },
                 {
                     name: "user",
                     description: "The user to remove the role from",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true,
                 },
             ],
@@ -46,7 +46,8 @@ export const roles: ChatInputCommand = {
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "MANAGE_ROLES"))) return;
+        if (!(await checkPermissions(interaction, "ManageRoles"))) return;
+        if (!interaction.isChatInputCommand()) return;
 
         const method = interaction.options.getSubcommand();
         const role = interaction.options.get("role").role;
@@ -57,7 +58,7 @@ export const roles: ChatInputCommand = {
             if (method === "add") {
                 await member.roles.add(role?.id);
 
-                const embed = new MessageEmbed({
+                const embed = new EmbedBuilder({
                     description: `Successfully added <@&${role.id}> to <@${user.id}>.`,
                     color: brandColor,
                 });
@@ -65,7 +66,7 @@ export const roles: ChatInputCommand = {
             } else if (method === "remove") {
                 await member.roles.remove(role?.id);
 
-                const embed = new MessageEmbed({
+                const embed = new EmbedBuilder({
                     description: `Successfully removed <@&${role.id}> from <@${user.id}>.`,
                     color: brandColor,
                 });

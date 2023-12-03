@@ -1,4 +1,4 @@
-import { Intents, PresenceData } from "discord.js";
+import { GatewayIntentBits, PresenceData, ActivityType } from "discord.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -6,14 +6,22 @@ dotenv.config();
 export const isDev: boolean = process.env.ENVIRONMENT === "dev";
 
 export const ownerID = "586206645592391711";
-export const statisticsURL = "https://api.statcord.com/v3";
-export const devServerId = "849379649917288508";
-export const intents = [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES];
+export const devServerId = "915865795593125889";
+export const intents = [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildPresences,
+];
 export const token = process.env.TOKEN ?? "No token provided";
 export const statcordToken = process.env.STATCORD_TOKEN ?? "No token provided";
 export const presence: PresenceData = {
     status: "online",
-    activities: [{ type: "LISTENING", name: "Slash Commands" }],
+    activities: [{ type: ActivityType.Custom, name: "WE ARE BACK BOYYYS" }],
 };
 
-export const brandColor = "#D329A0";
+export const ownerGithub: string = "github.com/joseywoermann";
+export const ownerWebsite: string = null;
+
+export const brandColor: number = 0xd329a0; // #D329A0

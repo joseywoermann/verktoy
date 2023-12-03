@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const eightBall: ChatInputCommand = {
     name: "8ball",
@@ -8,7 +8,7 @@ export const eightBall: ChatInputCommand = {
         {
             name: "question",
             description: "Ask a question",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
         },
     ],
@@ -18,7 +18,7 @@ export const eightBall: ChatInputCommand = {
 
         const answer = allResponses[Math.floor(Math.random() * allResponses.length)];
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `${answer}`,
             description: `You asked: "${question}"`,
             color: brandColor,

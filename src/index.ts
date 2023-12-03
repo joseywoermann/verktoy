@@ -9,7 +9,7 @@ client.login(token);
 client.once("ready", async () => {
     logger.info(`[DISCORD]  Logged in as "${client.user.tag}"`);
     if (!isDev) {
-        client.metrics.autopost();
+        // client.metrics.autopost();
     }
     client.user.setPresence(presence);
 
@@ -30,19 +30,20 @@ client.on("interactionCreate", async (interaction) => {
         logger.debug(`[DISCORD]  Handling interaction ${interaction.id} of type ${interaction.type}`);
     }
     if (interaction.isCommand() && !isDev) {
-        await client.metrics.postCommand(interaction.commandName, interaction.user.id);
+        // await client.metrics.postCommand(interaction.commandName, interaction.user.id);
     }
     handleInteraction(interaction);
 });
 
-client.on("messageCreate", async (msg) => {
-    if (msg.author.id === client.user.id) return;
+// client.on("messageCreate", async (msg) => {
+//     logger.debug(msg.content);
+//     if (msg.author.id === client.user.id) return;
 
-    if (msg.content === "h") {
-        await msg.reply({ content: "https://twitter.com/telegram/status/1469315579777540098" });
-    }
-});
+//     if (msg.content === "h") {
+//         await msg.reply({ content: "https://twitter.com/telegram/status/1469315579777540098" });
+//     }
+// });
 
-client.metrics.on("autopost-start", () => {
-    logger.info(`[STATCORD] Started automatic statistics posting`);
-});
+// client.metrics.on("autopost-start", () => {
+//     logger.info(`[STATCORD] Started automatic statistics posting`);
+// });

@@ -1,4 +1,4 @@
-export * from "./animal.js";
+// export * from "./animal.js";         // might be dead
 export * from "./ban.js";
 export * from "./calculate.js";
 export * from "./clear.js";

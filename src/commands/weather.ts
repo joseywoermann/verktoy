@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import fetch from "node-fetch";
 import { brandColor, ChatInputCommand } from "#util";
 
@@ -9,7 +9,7 @@ export const weather: ChatInputCommand = {
         {
             name: "location",
             description: "The city / place",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
         },
     ],
@@ -23,7 +23,7 @@ export const weather: ChatInputCommand = {
 
         const location = `${rawData.split("Location: ")[1].split("]")[0]}]`;
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             description: block(tldr, "ansi"),
             footer: { text: location },
             color: brandColor,

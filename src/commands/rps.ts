@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const rps: ChatInputCommand = {
     name: "rps",
@@ -8,7 +8,7 @@ export const rps: ChatInputCommand = {
         {
             name: "selection",
             description: "What do you choose?",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
             required: true,
             choices: [
                 {
@@ -34,20 +34,24 @@ export const rps: ChatInputCommand = {
         const winner = await determineWinner(userChoice, botChoice);
         const result = winner === "draw" ? "It's a draw!" : `You ${winner === "user" ? "won" : "lost"}!`;
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: result,
-            description: `You selected **${userChoice}**, the bot chose **${botChoice}**.`,
             color: brandColor,
             thumbnail: { url: await getImage(userChoice) },
         });
+
+        // description
+        let desc = `You selected **${userChoice}**, the bot chose **${botChoice}**.`
 
         if (winner !== "draw") {
             const wThing = winner === "user" ? userChoice : botChoice;
             const lThing = winner === "user" ? botChoice : userChoice;
 
-            embed.description += `\n**${wThing}** ${wThing === "scissors" ? "beat" : "beats"} **${lThing}**`;
+            desc += `\n**${wThing}** ${wThing === "scissors" ? "beat" : "beats"} **${lThing}**`;
         }
 
+        embed.setDescription(desc)
+        
         interaction.reply({ embeds: [embed] });
     },
 };

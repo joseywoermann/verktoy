@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 import { randomInt } from "mathjs";
 
 export const dice: ChatInputCommand = {
@@ -9,12 +9,12 @@ export const dice: ChatInputCommand = {
         {
             name: "min",
             description: "Minimum value",
-            type: "INTEGER",
+            type: ApplicationCommandOptionType.Integer,
         },
         {
             name: "max",
             description: "Maximum value",
-            type: "INTEGER",
+            type: ApplicationCommandOptionType.Integer,
         },
     ],
     restricted: false,
@@ -27,7 +27,7 @@ export const dice: ChatInputCommand = {
 
         const number = randomInt(options.min, options.max + 1);
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `You rolled ${number}!`,
             footer: { text: `Range: ${options.min} - ${options.max}` },
             color: brandColor,

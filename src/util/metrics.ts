@@ -1,78 +1,54 @@
-import fetch from "node-fetch";
-import { statisticsURL } from "#util";
-import type { Snowflake } from "discord.js";
+import type { User } from "discord.js";
+import { CustomClient } from "./modules/Client";
+import { formatDuration, logger, ownerGithub, ownerID, ownerWebsite } from "#util";
 
 /**
- * Fetch metrics from the API and parse them
- * @param clientId
+ * gathers metrics and returns them in a unified object
+ * @param client
  * @returns
  */
-export const fetchMetrics = async (clientId: Snowflake): Promise<Metrics> => {
-    const res = (await (await fetch(`${statisticsURL}/${clientId}`)).json()) as APIResponse;
+export const getMetrics = async (client: CustomClient): Promise<MetricsV2> => {
+    const mem = (process.memoryUsage().heapUsed / 1024 / 1024).toString();
 
-    if (!res.data) {
-        return {
-            error: { occured: res.error, message: res.message },
-            metrics: null,
-        };
-    } else {
-        return {
-            error: { occured: res.error, message: null },
-            metrics: {
-                time: res.data[0]?.time,
-                servers: res.data[0]?.servers,
-                users: res.data[0]?.users,
-                commands: res.data[0]?.commands,
-                active: res.data[0]?.active,
-                memactive: res.data[0]?.memactive,
-                memload: res.data[0]?.memload,
-                count: res.data[0]?.count,
-                popular: res.popular,
-                votes: res.data[0]?.votes,
-            },
-        };
-    }
+    const metrics = {
+        uptime: await formatDuration(client.uptime),
+        userCount: client.users.cache.size,
+        serverCount: client.guilds.cache.size,
+        channelCount: client.channels.cache.size,
+        commandExec: null,
+        popularCommand: null,
+        owner: {
+            user: (await client.users.fetch(ownerID)) as User,
+            github: ownerGithub != null ? `| ${ownerGithub}` : "",
+            website: ownerWebsite != null ? `| ${ownerWebsite}` : "",
+        },
+        memoryLoad: mem.slice(0, mem.length - 12),
+        cpuLoad: null,
+    };
+
+    return metrics;
 };
 
 /**
- * Raw response from the Statcord-API
+ * Metrics V2
  */
-interface APIResponse {
-    error: boolean;
-    message?: string;
-    data?: RawMetrics[];
-    popular?: Popular[];
+interface MetricsV2 {
+    uptime: string;
+    userCount: number;
+    serverCount: number;
+    channelCount: number;
+    commandExec: number | null;
+    popularCommand: {
+        name: string;
+        runs: number;
+    } | null;
+    owner: Owner;
+    memoryLoad: string;
+    cpuLoad: number | null;
 }
 
-/**
- * Raw metrics
- */
-interface RawMetrics {
-    time: number;
-    servers: string;
-    users: string;
-    commands: string;
-    active: string;
-    custom1: string;
-    custom2: string;
-    memactive: string;
-    memload: string;
-    bandwidth: string;
-    cpuload: string;
-    count: number;
-    popular: Popular[];
-    votes: number;
-}
-
-interface Popular {
-    name: string;
-    count: string;
-}
-
-// we don't need those keys
-type StrippedMetrics = Omit<RawMetrics, "custom1" | "custom2" | "bandwidth" | "cpuload">;
-
-interface Metrics {
-    error: { occured: boolean; message?: string };
-    metrics?: StrippedMetrics;
+interface Owner {
+    user: User;
+    github: string;
+    website: string;
 }

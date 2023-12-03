@@ -1,5 +1,5 @@
 import { brandColor, ChatInputCommand } from "#util";
-import { MessageEmbed, User } from "discord.js";
+import { EmbedBuilder, User } from "discord.js";
 
 export const serverinfo: ChatInputCommand = {
     name: "serverinfo",
@@ -8,7 +8,7 @@ export const serverinfo: ChatInputCommand = {
     run: async (interaction) => {
         const guild = interaction.guild;
 
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: `${guild.name}`,
             fields: [
                 {
@@ -31,13 +31,13 @@ export const serverinfo: ChatInputCommand = {
                     value: `${((await interaction.client.users.fetch(guild.ownerId)) as User)?.tag}`,
                     inline: true,
                 },
-                {
-                    name: "Boost status",
-                    value: `${guild.premiumSubscriptionCount} Boosts | Level ${await boostLevel(
-                        guild.premiumTier
-                    )}`,
-                    inline: true,
-                },
+                // {
+                //     name: "Boost status",
+                //     value: `${guild.premiumSubscriptionCount} Boosts | Level ${await boostLevel(
+                //         guild.premiumTier
+                //     )}`,
+                //     inline: true,
+                // },
                 {
                     name: "Extras",
                     value: `${guild.verified ? "Verified" : "Not verified"}, ${
@@ -53,12 +53,12 @@ export const serverinfo: ChatInputCommand = {
         });
 
         if (guild.iconURL() !== null) {
-            embed.thumbnail = { url: guild.iconURL() };
+            embed.setThumbnail(guild.iconURL());
         }
 
         // not tested due to lack of guilds that meet this requirement but it should™ work
         if (guild.bannerURL() !== null) {
-            embed.image = { url: guild.bannerURL() };
+            embed.setImage(guild.bannerURL());
         }
 
         await interaction.reply({ embeds: [embed] });

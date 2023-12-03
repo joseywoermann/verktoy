@@ -1,4 +1,4 @@
-import { CommandInteraction, ContextMenuInteraction, MessageEmbed, User } from "discord.js";
+import { CommandInteraction, ContextMenuCommandInteraction, EmbedBuilder, User } from "discord.js";
 import { brandColor } from "#util";
 
 /**
@@ -8,9 +8,9 @@ import { brandColor } from "#util";
  * @returns
  */
 export const getUserInfo = async (
-    interaction: CommandInteraction | ContextMenuInteraction,
-    user: User
-): Promise<MessageEmbed> => {
+    interaction: CommandInteraction | ContextMenuCommandInteraction,
+    user: User,
+): Promise<EmbedBuilder> => {
     const member = await interaction.guild.members.fetch(user?.id);
 
     const perms = member.permissions.toArray();
@@ -18,8 +18,8 @@ export const getUserInfo = async (
     const accountCreated = Math.round(user?.createdAt.getTime() / 1000);
     const serverJoined = Math.round(member?.joinedAt.getTime() / 1000);
 
-    const isAdmin = member.permissions.toArray().includes("ADMINISTRATOR") ? "Yes" : "No";
-    const isModerator = perms.includes("MANAGE_MESSAGES") || isAdmin ? "Yes" : "No";
+    const isAdmin = member.permissions.toArray().includes("Administrator") ? "Yes" : "No";
+    const isModerator = perms.includes("ManageMessages") || isAdmin ? "Yes" : "No";
 
     const roleCount = member.roles.cache.size - 1; // exclude @everyone
     let roles = "";
@@ -30,12 +30,12 @@ export const getUserInfo = async (
         }
     });
 
-    const embed = new MessageEmbed({
+    const embed = new EmbedBuilder({
         title: user?.tag,
         fields: [
             { name: "ID", value: user?.id, inline: true },
             { name: "Account type", value: user?.bot ? "Bot" : "User", inline: true },
-            { name: `Roles [${roleCount}]`, value: `${roles || "None"}` },
+            { name: `Roles (${roleCount})`, value: `${roles || "None"}` },
             { name: `Administrator`, value: `${isAdmin}`, inline: true },
             { name: `Moderator`, value: `${isModerator}`, inline: true },
             { name: "Booster", value: `${member.premiumSince ? "Yes" : "No"}`, inline: true },

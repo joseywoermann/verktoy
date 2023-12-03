@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const ban: ChatInputCommand = {
     name: "ban",
@@ -8,18 +8,18 @@ export const ban: ChatInputCommand = {
         {
             name: "user",
             description: "user",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "member",
                     description: "The user who should be banned",
-                    type: "USER",
+                    type: ApplicationCommandOptionType.User,
                     required: true,
                 },
                 {
                     name: "reason",
                     description: "The reason for the ban",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
             ],
@@ -27,18 +27,18 @@ export const ban: ChatInputCommand = {
         {
             name: "id",
             description: "id",
-            type: "SUB_COMMAND",
+            type: ApplicationCommandOptionType.Subcommand,
             options: [
                 {
                     name: "member",
                     description: "The user who should be banned",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                 },
                 {
                     name: "reason",
                     description: "The reason for the ban",
-                    type: "STRING",
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                 },
             ],
@@ -46,7 +46,9 @@ export const ban: ChatInputCommand = {
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "BAN_MEMBERS"))) return;
+        if (!(await checkPermissions(interaction, "BanMembers"))) return;
+
+        if (!interaction.isChatInputCommand()) return;
 
         const method = interaction.options.getSubcommand();
 
@@ -58,7 +60,7 @@ export const ban: ChatInputCommand = {
         try {
             await interaction.guild.members.ban(user, { reason: `${reason} - ${interaction.user.tag}` });
 
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 description: `Successfully banned <@${user}>.`,
                 color: brandColor,
             });

@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
 
 export const mute: ChatInputCommand = {
     name: "mute",
@@ -8,13 +8,13 @@ export const mute: ChatInputCommand = {
         {
             name: "user",
             description: "The user to mute",
-            type: "USER",
+            type: ApplicationCommandOptionType.User,
             required: true,
         },
         {
             name: "duration",
             description: "The duration the user should be muted for, in minutes.", // TODO: add autocomplete with different time units
-            type: "INTEGER",
+            type: ApplicationCommandOptionType.Integer,
             required: true,
             minValue: 1,
             maxValue: 40320, // 28 days
@@ -22,12 +22,12 @@ export const mute: ChatInputCommand = {
         {
             name: "reason",
             description: "The reaosn why the user should be muted.",
-            type: "STRING",
+            type: ApplicationCommandOptionType.String,
         },
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "MODERATE_MEMBERS"))) return;
+        if (!(await checkPermissions(interaction, "ModerateMembers"))) return;
 
         const userId = interaction.options.get("user").user.id;
         const duration = Number(interaction.options.get("duration").value);
@@ -39,7 +39,7 @@ export const mute: ChatInputCommand = {
             const member = await interaction.guild.members.fetch(userId);
             await member.timeout(mintoMs(duration), reason);
 
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 description: `Timed out ${member} for ${duration} ${duration === 1 ? "minute" : "minutes"}.`,
                 color: brandColor,
             });

@@ -1,5 +1,5 @@
 import { checkPermissions, ChatInputCommand, handleError, brandColor } from "#util";
-import { MessageEmbed, TextChannel } from "discord.js";
+import { EmbedBuilder, TextChannel, ApplicationCommandOptionType } from "discord.js";
 
 export const slowmode: ChatInputCommand = {
     name: "slowmode",
@@ -8,18 +8,18 @@ export const slowmode: ChatInputCommand = {
         {
             name: "delay",
             description: "How many seconds the users have to wait before sending messages, 0 to remove it",
-            type: "INTEGER",
+            type: ApplicationCommandOptionType.Integer,
             required: true,
             maxValue: 21600,
         },
     ],
     restricted: true,
     run: async (interaction) => {
-        if (!(await checkPermissions(interaction, "MANAGE_CHANNELS"))) return;
+        if (!(await checkPermissions(interaction, "ManageChannels"))) return;
         const delay = Number(interaction.options.get("delay").value);
 
         try {
-            const embed = new MessageEmbed({
+            const embed = new EmbedBuilder({
                 description: `Successfully set slowmode to ${delay} seconds.`,
                 color: brandColor,
             });

@@ -1,8 +1,9 @@
 import { getUserInfo, handleError, UserContextCommand } from "#util";
+import { ApplicationCommandType } from "discord.js"
 
 export const userinfo: UserContextCommand = {
     name: "Show user info",
-    type: "USER",
+    type: ApplicationCommandType.User,
     run: async (interaction) => {
         try {
             const user = interaction.options.get("user")?.user;

@@ -1,4 +1,4 @@
-import { CommandInteraction, ContextMenuInteraction, MessageEmbed, PermissionFlags } from "discord.js";
+import { CommandInteraction, ContextMenuCommandInteraction, EmbedBuilder, PermissionFlags, Colors } from "discord.js";
 
 /**
  * Checks whether the use who ran the command has the required permissions and responds with an error message if that's not the case.
@@ -7,14 +7,14 @@ import { CommandInteraction, ContextMenuInteraction, MessageEmbed, PermissionFla
  * @returns
  */
 export const checkPermissions = async (
-    interaction: CommandInteraction | ContextMenuInteraction,
+    interaction: CommandInteraction | ContextMenuCommandInteraction,
     permission: keyof PermissionFlags
 ): Promise<boolean> => {
     if (!interaction.memberPermissions.has(permission)) {
-        const embed = new MessageEmbed({
+        const embed = new EmbedBuilder({
             title: "You are missing the following permission(s):",
-            description: `\`\`\`\n\\${permission}\`\`\``,
-            color: "RED",
+            description: `\`\`\`\n\\${String(permission)}\`\`\``,
+            color: Colors.Red,
         });
 
         await interaction.reply({ embeds: [embed], ephemeral: true });
