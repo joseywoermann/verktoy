@@ -15,7 +15,6 @@ const loadButtons = async (): Promise<Button[]> => {
         let file = await import(`./${buttonFile}`);
         const button: Button = file[buttonFile.replace(".js", "")];
         buttons.push(button);
-        // logger.debug(button.data.data.type);
         const buttonName =
             button.data.data.style == ButtonStyle.Link ? "<LINK-button>" : String(button.data.data.custom_id);
         logger.debug(`[DISCORD]  Found button:  ${buttonName}`);
