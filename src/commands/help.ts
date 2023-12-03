@@ -15,8 +15,8 @@ export const help: ChatInputCommand = {
             footer: { text: "Additional functionality is provided through context menus" },
         });
 
-        let desc  =`These are all the available commands.\n**Commands marked with an** \`[X]\` **are restricted and require elevated permissions.**\n`
-        
+        let desc = `These are all the available commands.\n**Commands marked with an** \`[X]\` **are restricted and require elevated permissions.**\n`;
+
         // list commands
         desc += "```\n";
 
@@ -26,9 +26,7 @@ export const help: ChatInputCommand = {
 
         desc += "```";
 
-
-
-        embed.setDescription(desc)
+        embed.setDescription(desc);
 
         await i.reply({ embeds: [embed] });
     },
@@ -40,7 +38,7 @@ const listCommands = async (): Promise<ChatInputCommand[]> => {
         .readdirSync(`dist/commands`)
         .filter(
             (file) =>
-                file.endsWith(".js") && !file.startsWith("__loader.js") && !file.startsWith("__exports.js")
+                file.endsWith(".js") && !file.startsWith("__loader.js") && !file.startsWith("__exports.js"),
         );
 
     for (const commandFile of commandFiles) {

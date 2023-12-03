@@ -30,6 +30,9 @@ export const info: ChatInputCommand = {
                 { name: "Bot version", value: block("v1.1.0"), inline: true },
                 { name: "Memory usage", value: `${block(`${memoryLoad} MB`)}`, inline: true },
             ],
+            image: {
+                url: "https://raw.githubusercontent.com/joseywoermann/verktoy/master/assets/name-crop.png",
+            },
         });
 
         await i.editReply({
