@@ -32,7 +32,7 @@ export const unban: ChatInputCommand = {
             for (const banEntry of banEntries) {
                 const { username, discriminator, id } = banEntry.user;
 
-                if (query === `${username}#${discriminator}`) {
+                if (query === `${username}#${discriminator}` || query === username) {
                     try {
                         const embed = new EmbedBuilder({
                             description: `Successfully unbanned <@${id}>.`,
