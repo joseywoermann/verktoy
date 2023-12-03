@@ -1,6 +1,6 @@
 import { brandColor, ChatInputCommand } from "#util";
 import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
-import { CurrencyConverter } from "#util";
+import { convertCurrency } from "#util";
 
 export const currencyconverter: ChatInputCommand = {
     name: "convertcurrency",
@@ -39,11 +39,15 @@ export const currencyconverter: ChatInputCommand = {
                 })),
             ]);
         } else {
-            const tmp = query.value.toString().toUpperCase();
+            const requestedCurrency = query.value.toString().toUpperCase();
             // I'm sorry
             await interaction.respond([
                 ...currencies
-                    .filter((curr) => curr.id.includes(tmp) || curr.currencyName.toUpperCase().includes(tmp))
+                    .filter(
+                        (curr) =>
+                            curr.id.includes(requestedCurrency) ||
+                            curr.currencyName.toUpperCase().includes(requestedCurrency),
+                    )
                     .slice(0, 25)
                     .map((currency: Currency) => ({
                         name: currency.currencyName,
@@ -57,12 +61,11 @@ export const currencyconverter: ChatInputCommand = {
         const target = interaction.options.get("target").value as string;
         const amount = interaction.options.get("amount").value as number;
 
-        const converter = new CurrencyConverter();
-        const result = await converter.convert(base, target, amount);
+        const result = await convertCurrency(base, target, amount);
 
         const embed = new EmbedBuilder({
             title: `${amount} ${await findName(base)} equals ${result.toFixed(2)} ${await findName(target)}`,
-            footer: { text: "Data provided by currencyconverterapi.com" },
+            footer: { text: "Data provided by exchangerate-api.com" },
             color: brandColor,
         });
 
@@ -70,6 +73,11 @@ export const currencyconverter: ChatInputCommand = {
     },
 };
 
+/**
+ * Helper function that finds the name of a currency based on the short code
+ * @param code
+ * @returns
+ */
 const findName = async (code: string): Promise<string> => {
     for (let i = 0; i < currencies.length; i++) {
         if (currencies[i].id === code) {

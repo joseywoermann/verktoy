@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, CommandInteraction, EmbedBuilder, User } from "discord.js";
-import { ChatInputCommand, ownerID, formatDuration, fetchMetrics, brandColor } from "#util";
+import { ChatInputCommand, getMetrics as getMetrics, brandColor } from "#util";
 import { creditsButton, inviteButton, sourceButton, supportButton } from "#buttons";
 
 export const info: ChatInputCommand = {
@@ -8,44 +8,24 @@ export const info: ChatInputCommand = {
     restricted: false,
     run: async (i: CommandInteraction) => {
         await i.deferReply();
-        const data = await fetchMetrics(i.client.user.id);
-
-        if (data.error.occured) {
-            await i.editReply({ content: `Something went wrong: ${data.error.message}` });
-            return;
-        }
-
-        // extract necessary information
-        const { memactive, users, servers, commands: commandRuns, popular } = data.metrics;
-
-        let memUsage = (Number(memactive) / 1024 / 1024).toString();
-        // remove all but 1 decimal places
-        memUsage = memUsage.slice(0, memUsage.length - 13);
-
-        const owner = (await i.client.users.fetch(ownerID)) as User;
+        const { uptime, userCount, serverCount, channelCount, owner, memoryLoad } = await getMetrics(
+            i.client,
+        );
 
         const embed = new EmbedBuilder({
             title: `Bot metrics & statistics:`,
             color: brandColor,
             fields: [
-                { name: "User count", value: block(users), inline: true },
-                { name: "Server count", value: block(servers), inline: true },
-                {
-                    name: "Channel count",
-                    value: block(i.client.channels.cache.size),
-                    inline: true,
-                },
-                { name: "Uptime", value: block(await formatDuration(i.client?.uptime)) },
-                { name: "Commands run (all time)", value: block(commandRuns), inline: true },
-                {
-                    name: "Most popular command",
-                    value: block(`/${popular[0].name} | Run ${popular[0].count} times`),
-                    inline: true,
-                },
-                { name: "Owner", value: block(`${owner?.tag} | ID: ${owner?.id}`) },
-                { name: "Library", value: block("discord.js v13"), inline: true },
-                { name: "Bot version", value: block("v1.0.0"), inline: true },
-                { name: "Memory usage", value: `${block(`${memUsage} MB`)}`, inline: true },
+                { name: "User count", value: block(userCount), inline: true },
+                { name: "Server count", value: block(serverCount), inline: true },
+                { name: "Channel count", value: block(channelCount), inline: true },
+                { name: "Uptime", value: block(uptime) },
+                // { name: "Commands run (all time)", value: block(commandRuns), inline: true },
+                // { name: "Most popular command", value: block(`/${popular[0].name} | Run ${popular[0].count} times`), inline: true },
+                { name: "Owner", value: block(`${owner.user.tag} | ${owner.github} | ${owner.website}`) },
+                { name: "Library", value: block("discord.js v14"), inline: true },
+                { name: "Bot version", value: block("v1.1.0"), inline: true },
+                { name: "Memory usage", value: `${block(`${memoryLoad} MB`)}`, inline: true },
             ],
         });
 
@@ -53,13 +33,13 @@ export const info: ChatInputCommand = {
             embeds: [embed],
             components: [
                 new ActionRowBuilder<ButtonBuilder>({
-                components: [
-                    inviteButton.data,
-                    supportButton.data,
-                    sourceButton.data,
-                    creditsButton.data,
-                ],
-            })
+                    components: [
+                        inviteButton.data,
+                        supportButton.data,
+                        sourceButton.data,
+                        creditsButton.data,
+                    ],
+                }),
             ],
         });
     },

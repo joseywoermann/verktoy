@@ -26,12 +26,10 @@ export const animal: ChatInputCommand = {
     run: async (interaction) => {
         const species = interaction.options.get("species").value as string;
 
-        logger.debug(species)
-
         // website doesn't have content
 
         const res = await fetch(`https://some-random-api.ml/animal/${species}`);
-        const data = (await res.json()) as { image: string, fact: string };
+        const data = (await res.json()) as { image: string; fact: string };
 
         const embed = new EmbedBuilder({
             title: `Here is a picture of a ${species === "red_panda" ? "red panda" : species}!`,

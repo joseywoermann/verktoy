@@ -9,7 +9,7 @@ import { brandColor } from "#util";
  */
 export const getUserInfo = async (
     interaction: CommandInteraction | ContextMenuCommandInteraction,
-    user: User
+    user: User,
 ): Promise<EmbedBuilder> => {
     const member = await interaction.guild.members.fetch(user?.id);
 
@@ -35,7 +35,7 @@ export const getUserInfo = async (
         fields: [
             { name: "ID", value: user?.id, inline: true },
             { name: "Account type", value: user?.bot ? "Bot" : "User", inline: true },
-            { name: `Roles [${roleCount}]`, value: `${roles || "None"}` },
+            { name: `Roles (${roleCount})`, value: `${roles || "None"}` },
             { name: `Administrator`, value: `${isAdmin}`, inline: true },
             { name: `Moderator`, value: `${isModerator}`, inline: true },
             { name: "Booster", value: `${member.premiumSince ? "Yes" : "No"}`, inline: true },
