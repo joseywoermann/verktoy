@@ -1,4 +1,4 @@
-import { brandColor, ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand, logger } from "#util";
 import { EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
 
@@ -23,18 +23,17 @@ export const meme: ChatInputCommand = {
 };
 
 const getMeme = async (): Promise<Meme> => {
-    const res = await fetch("https://meme-api.herokuapp.com/gimme");
+    const res = await fetch("https://meme-api.com/gimme");
     const data = (await res.json()) as Meme;
 
     // TODO: don't post NSFW memes
-    //
-    // if (data.nsfw) {
-    //     console.log("Meme is NSFW, reloading");
-    //     await getMeme();
-    // } else {
-    //     return data;
-    // }
-    return data;
+
+    if (data.nsfw) {
+        logger.debug("Meme is NSFW, reloading");
+        await getMeme();
+    } else {
+        return data;
+    }
 };
 
 interface Meme {
