@@ -11,6 +11,8 @@ export const intents = [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildPresences,
 ];
 export const token = process.env.TOKEN ?? "No token provided";
 export const statcordToken = process.env.STATCORD_TOKEN ?? "No token provided";

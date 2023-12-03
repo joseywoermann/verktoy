@@ -46,27 +46,28 @@ export const ban: ChatInputCommand = {
     ],
     restricted: true,
     run: async (interaction) => {
-        // if (!(await checkPermissions(interaction, "BanMembers"))) return;
+        if (!(await checkPermissions(interaction, "BanMembers"))) return;
 
-        // const method = interaction.options.getSubcommand();
+        if (!interaction.isChatInputCommand()) return;
 
-        // const reason = interaction.options.get("reason")?.value ?? "None";
-        // const target = interaction.options.get("member");
+        const method = interaction.options.getSubcommand();
 
-        // const user = method === "user" ? target?.user.id : target?.value.toString();
+        const reason = interaction.options.get("reason")?.value ?? "None";
+        const target = interaction.options.get("member");
 
-        // try {
-        //     await interaction.guild.members.ban(user, { reason: `${reason} - ${interaction.user.tag}` });
+        const user = method === "user" ? target?.user.id : target?.value.toString();
 
-        //     const embed = new EmbedBuilder({
-        //         description: `Successfully banned <@${user}>.`,
-        //         color: brandColor,
-        //     });
+        try {
+            await interaction.guild.members.ban(user, { reason: `${reason} - ${interaction.user.tag}` });
 
-        //     await interaction.reply({ embeds: [embed] });
-        // } catch (e: unknown) {
-        //     await handleError(interaction, e as Error);
-        // }
-        await interaction.reply("hi");
+            const embed = new EmbedBuilder({
+                description: `Successfully banned <@${user}>.`,
+                color: brandColor,
+            });
+
+            await interaction.reply({ embeds: [embed] });
+        } catch (e: unknown) {
+            await handleError(interaction, e as Error);
+        }
     },
 };

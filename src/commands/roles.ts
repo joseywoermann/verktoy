@@ -46,34 +46,34 @@ export const roles: ChatInputCommand = {
     ],
     restricted: true,
     run: async (interaction) => {
-        // if (!(await checkPermissions(interaction, "ManageRoles"))) return;
+        if (!(await checkPermissions(interaction, "ManageRoles"))) return;
+        if (!interaction.isChatInputCommand()) return;
 
-        // const method = interaction.options.getSubcommand();
-        // const role = interaction.options.get("role").role;
-        // const user = interaction.options.get("user").user;
-        // const member = await interaction.guild.members.fetch(user?.id);
+        const method = interaction.options.getSubcommand();
+        const role = interaction.options.get("role").role;
+        const user = interaction.options.get("user").user;
+        const member = await interaction.guild.members.fetch(user?.id);
 
-        // try {
-        //     if (method === "add") {
-        //         await member.roles.add(role?.id);
+        try {
+            if (method === "add") {
+                await member.roles.add(role?.id);
 
-        //         const embed = new EmbedBuilder({
-        //             description: `Successfully added <@&${role.id}> to <@${user.id}>.`,
-        //             color: brandColor,
-        //         });
-        //         await interaction.reply({ embeds: [embed] });
-        //     } else if (method === "remove") {
-        //         await member.roles.remove(role?.id);
+                const embed = new EmbedBuilder({
+                    description: `Successfully added <@&${role.id}> to <@${user.id}>.`,
+                    color: brandColor,
+                });
+                await interaction.reply({ embeds: [embed] });
+            } else if (method === "remove") {
+                await member.roles.remove(role?.id);
 
-        //         const embed = new EmbedBuilder({
-        //             description: `Successfully removed <@&${role.id}> from <@${user.id}>.`,
-        //             color: brandColor,
-        //         });
-        //         await interaction.reply({ embeds: [embed] });
-        //     }
-        // } catch (e) {
-        //     await handleError(interaction, e as Error);
-        // }
-        await interaction.reply("hi")
+                const embed = new EmbedBuilder({
+                    description: `Successfully removed <@&${role.id}> from <@${user.id}>.`,
+                    color: brandColor,
+                });
+                await interaction.reply({ embeds: [embed] });
+            }
+        } catch (e) {
+            await handleError(interaction, e as Error);
+        }
     },
 };

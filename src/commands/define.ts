@@ -35,63 +35,64 @@ export const define: ChatInputCommand = {
     ],
     restricted: false,
     run: async (interaction) => {
-        // await interaction.deferReply();
-        // const word = interaction.options.get("word").value as string;
+        await interaction.deferReply();
+        if (!interaction.isChatInputCommand()) return;
 
-        // // maybe not the best source for serious questions
-        // if (interaction.options.getSubcommand() === "slang") {
-        //     const def = (await getDefinitions(word, "slang")) as SlangDefinition;
+        const word = interaction.options.get("word").value as string;
 
-        //     if (!def) {
-        //         await handleNoDefinitionFound(interaction, word);
-        //         return;
-        //     }
+        // maybe not the best source for serious questions
+        if (interaction.options.getSubcommand() === "slang") {
+            const def = (await getDefinitions(word, "slang")) as SlangDefinition;
 
-        //     const embed = new EmbedBuilder({
-        //         title: def.word,
-        //         description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
-        //         color: brandColor,
-        //         footer: {
-        //             text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
-        //         },
-        //     });
+            if (!def) {
+                await handleNoDefinitionFound(interaction, word);
+                return;
+            }
 
-        //     await interaction.editReply({ embeds: [embed] });
+            const embed = new EmbedBuilder({
+                title: def.word,
+                description: `${def.definition.replaceAll("[", "").replaceAll("]", "")}`,
+                color: brandColor,
+                footer: {
+                    text: `Source: urbandictionary.com | by ${def.author} | ${def.thumbs_up} upvotes, ${def.thumbs_down} downvotes`,
+                },
+            });
 
-        //     // apparently some people like more serious definitions
-        // } else if (interaction.options.getSubcommand() === "official") {
-        //     const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
+            await interaction.editReply({ embeds: [embed] });
 
-        //     if (!def) {
-        //         await handleNoDefinitionFound(interaction, word);
-        //         return;
-        //     }
+            // apparently some people like more serious definitions
+        } else if (interaction.options.getSubcommand() === "official") {
+            const def = (await getDefinitions(word, "official")) as OfficialDefinitionEntry;
 
-        //     const defFields: { name: string; value: string }[] = [];
+            if (!def) {
+                await handleNoDefinitionFound(interaction, word);
+                return;
+            }
 
-        //     def.meanings.forEach((meaning) => {
-        //         defFields.push({
-        //             name: `Type: ${meaning.partOfSpeech}`,
-        //             value: `Definition: ${meaning.definitions[0].definition}`,
-        //         });
-        //     });
+            const defFields: { name: string; value: string }[] = [];
 
-        //     const embed = new EmbedBuilder({
-        //         title: def.word,
-        //         fields: defFields,
-        //         footer: { text: `Source: dictionaryapi.dev` },
-        //         color: brandColor,
-        //     });
+            def.meanings.forEach((meaning) => {
+                defFields.push({
+                    name: `Type: ${meaning.partOfSpeech}`,
+                    value: `Definition: ${meaning.definitions[0].definition}`,
+                });
+            });
 
-        //     await interaction.editReply({ embeds: [embed] });
-        // }
-        await interaction.reply("hi")
+            const embed = new EmbedBuilder({
+                title: def.word,
+                fields: defFields,
+                footer: { text: `Source: dictionaryapi.dev` },
+                color: brandColor,
+            });
+
+            await interaction.editReply({ embeds: [embed] });
+        }
     },
 };
 
 const getDefinitions = async (
     query: string,
-    type: "slang" | "official"
+    type: "slang" | "official",
 ): Promise<SlangDefinition | OfficialDefinitionEntry> => {
     if (type === "slang") {
         const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`);

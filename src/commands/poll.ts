@@ -88,50 +88,53 @@ export const poll: ChatInputCommand = {
         },
     ],
     run: async (interaction) => {
-        // const pollType = interaction.options.getSubcommand();
-        // const question = interaction.options.get("question").value as string;
+        if (!interaction.isChatInputCommand()) return;
+        const pollType = interaction.options.getSubcommand();
+        const question = interaction.options.get("question").value as string;
 
-        // // Yes / No poll
-        // if (pollType === "yesno") {
-        //     const embed = new EmbedBuilder({
-        //         title: `${question}`,
-        //         color: brandColor,
-        //     });
+        // Yes / No poll
+        if (pollType === "yesno") {
+            const embed = new EmbedBuilder({
+                title: `${question}`,
+                color: brandColor,
+            });
 
-        //     const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
+            const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
 
-        //     msg.react("👍");
-        //     msg.react("👎");
-        //     return;
-        // }
+            msg.react("👍");
+            msg.react("👎");
+            return;
+        }
 
-        // // A poll with user-defined choices
-        // if (pollType === "generic") {
-        //     const embed = new EmbedBuilder({
-        //         title: `${question}`,
-        //         description: ``,
-        //         color: brandColor,
-        //     });
+        // A poll with user-defined choices
+        if (pollType === "generic") {
+            const embed = new EmbedBuilder({
+                title: `${question}`,
+                color: brandColor,
+            });
 
-        //     // remove the question from list of choices
-        //     const choices = interaction.options.data[0].options.filter(
-        //         (choice) => choice.name !== "question"
-        //     );
+            // remove the question from list of choices
+            const choices = interaction.options.data[0].options.filter(
+                (choice) => choice.name !== "question",
+            );
 
-        //     // construct embed
-        //     choices.forEach((choice, i) => {
-        //         embed.description += `${emojis[i]}: ${choice.value}\n`;
-        //     });
+            let desc = "";
 
-        //     const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
+            // construct embed
+            choices.forEach((choice, i) => {
+                desc += `${emojis[i]}: ${choice.value}\n`;
+            });
 
-        //     // add reactions based on number of choices
-        //     choices.forEach((_, i) => {
-        //         msg.react(emojis[i]);
-        //     });
-        //     return;
-        // }
-        await interaction.reply("hi")
+            embed.setDescription(desc);
+
+            const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as Message<boolean>;
+
+            // add reactions based on number of choices
+            choices.forEach((_, i) => {
+                msg.react(emojis[i]);
+            });
+            return;
+        }
     },
 };
 
