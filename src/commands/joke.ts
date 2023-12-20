@@ -7,15 +7,48 @@ export const joke: ChatInputCommand = {
     description: "A random joke",
     restricted: false,
     run: async (interaction) => {
-        const res = await fetch("https://some-random-api.ml/joke");
-        const data = (await res.json()) as { joke: string };
+        const res = await fetch(`https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,racist,sexist`);
+        const data = (await res.json()) as JokeData;
 
-        const embed = new EmbedBuilder({
-            title: `${data.joke}`,
-            footer: { text: `Source: some-random-api.ml` },
+        let embed = new EmbedBuilder({
+            footer: { text: `Source: jokeapi.dev` },
             color: brandColor,
         });
+        if (data.type === "single") {
+            embed.setTitle(data.joke);
+        } else {
+            embed.setTitle(data.setup);
+            embed.setDescription(`- ${data.delivery}`);
+        }
 
         await interaction.reply({ embeds: [embed] });
     },
 };
+
+/**
+ * The data returned by the API
+ */
+interface JokeData {
+    error: boolean;
+    category: string;
+    type: "single" | "twopart";
+    joke?: string;
+    setup?: string;
+    delivery?: string;
+    flags: Flags;
+    id: number;
+    safe: boolean;
+    lang: string;
+}
+
+/**
+ * Flags
+ */
+interface Flags {
+    nsfw: boolean;
+    religious: boolean;
+    political: boolean;
+    racist: boolean;
+    sexist: boolean;
+    explicit: boolean;
+}

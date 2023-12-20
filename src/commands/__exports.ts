@@ -1,7 +1,7 @@
-// export * from "./animal.js";         // might be dead
 export * from "./ban.js";
 export * from "./calculate.js";
 export * from "./clear.js";
+export * from "./config.js";
 export * from "./currencyconverter.js";
 export * from "./define.js";
 export * from "./dice.js";
@@ -12,7 +12,6 @@ export * from "./info.js";
 export * from "./invite.js";
 export * from "./joke.js";
 export * from "./kick.js";
-export * from "./meme.js";
 export * from "./mute.js";
 export * from "./ping.js";
 export * from "./poll.js";

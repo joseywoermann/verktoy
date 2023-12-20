@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, CommandInteraction, EmbedBuilder, User } from "discord.js";
-import { ChatInputCommand, getMetrics as getMetrics, brandColor, ownerGithub, ownerWebsite } from "#util";
+import { ChatInputCommand, getMetrics as getMetrics, brandColor } from "#util";
 import { creditsButton, inviteButton, sourceButton, supportButton } from "#buttons";
 
 export const info: ChatInputCommand = {
@@ -24,7 +24,7 @@ export const info: ChatInputCommand = {
                 // { name: "Most popular command", value: block(`/${popular[0].name} | Run ${popular[0].count} times`), inline: true },
                 {
                     name: "Creator",
-                    value: block(`@${owner.user.tag} ${owner.github} ${owner.website}`),
+                    value: block(`@${owner.user.tag}`),
                 },
                 { name: "Library", value: block("discord.js v14"), inline: true },
                 { name: "Bot version", value: block("v1.1.0"), inline: true },

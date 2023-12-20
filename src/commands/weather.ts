@@ -1,6 +1,6 @@
-import { EmbedBuilder, ApplicationCommandOptionType } from "discord.js";
+import { EmbedBuilder, ApplicationCommandOptionType, Colors } from "discord.js";
 import fetch from "node-fetch";
-import { brandColor, ChatInputCommand } from "#util";
+import { brandColor, ChatInputCommand, handleError, logger } from "#util";
 
 export const weather: ChatInputCommand = {
     name: "weather",
@@ -19,17 +19,32 @@ export const weather: ChatInputCommand = {
         const loc = interaction.options.get("location").value as string;
 
         const rawData = await (await fetch(`https://wttr.in/${loc}`)).text();
-        const tldr = rawData.split("┌")[0];
 
-        const location = `${rawData.split("Location: ")[1].split("]")[0]}]`;
+        try {
+            if (!rawData.startsWith("Weather report:")) {
+                const embed = new EmbedBuilder({
+                    title: "Error",
+                    description: `\`\`\`\nCould not find location "${loc}".\`\`\``,
+                    color: Colors.Red,
+                });
 
-        const embed = new EmbedBuilder({
-            description: block(tldr, "ansi"),
-            footer: { text: location },
-            color: brandColor,
-        });
+                await interaction.editReply({ embeds: [embed] });
+            } else {
+                const tldr = rawData.split("┌")[0];
 
-        await interaction.editReply({ embeds: [embed] });
+                const location = `${rawData.split("Location: ")[1].split("]")[0]}]`;
+
+                const embed = new EmbedBuilder({
+                    description: block(tldr, "ansi"),
+                    footer: { text: location },
+                    color: brandColor,
+                });
+
+                await interaction.editReply({ embeds: [embed] });
+            }
+        } catch (error) {
+            await handleError(interaction, error);
+        }
     },
 };
 

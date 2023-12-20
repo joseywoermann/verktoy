@@ -15,13 +15,9 @@ export const intents = [
     GatewayIntentBits.GuildPresences,
 ];
 export const token = process.env.TOKEN ?? "No token provided";
-export const statcordToken = process.env.STATCORD_TOKEN ?? "No token provided";
-export const presence: PresenceData = {
+export const defaultPresence: PresenceData = {
     status: "online",
-    activities: [{ type: ActivityType.Custom, name: "WE ARE BACK BOYYYS" }],
+    activities: [{ type: ActivityType.Custom, name: "Watching you" }],
 };
-
-export const ownerGithub: string = "github.com/joseywoermann";
-export const ownerWebsite: string = null;
 
 export const brandColor: number = 0xd329a0; // #D329A0

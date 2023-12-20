@@ -1,6 +1,6 @@
 import type { User } from "discord.js";
 import { CustomClient } from "./modules/Client";
-import { formatDuration, logger, ownerGithub, ownerID, ownerWebsite } from "#util";
+import { formatDuration, ownerID } from "#util";
 
 /**
  * gathers metrics and returns them in a unified object
@@ -19,8 +19,6 @@ export const getMetrics = async (client: CustomClient): Promise<MetricsV2> => {
         popularCommand: null,
         owner: {
             user: (await client.users.fetch(ownerID)) as User,
-            github: ownerGithub != null ? `| ${ownerGithub}` : "",
-            website: ownerWebsite != null ? `| ${ownerWebsite}` : "",
         },
         memoryLoad: mem.slice(0, mem.length - 12),
         cpuLoad: null,
@@ -49,6 +47,4 @@ interface MetricsV2 {
 
 interface Owner {
     user: User;
-    github: string;
-    website: string;
 }

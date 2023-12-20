@@ -1,6 +1,6 @@
-import { ChatInputCommand } from "#util";
+import { ChatInputCommand, brandColor } from "#util";
 import * as QRCode from "qrcode";
-import { ApplicationCommandOptionType } from "discord.js"
+import { ApplicationCommandOptionType, EmbedBuilder } from "discord.js";
 
 export const qrcode: ChatInputCommand = {
     name: "qrcode",
@@ -17,8 +17,18 @@ export const qrcode: ChatInputCommand = {
     run: async (interaction) => {
         const input = interaction.options.get("url").value as string;
 
-        await QRCode.toFile("./qrcode.png", input);
+        await QRCode.toFile("./qrcode.png", input, {
+            scale: 8,
+        });
 
-        await interaction.reply({ files: [{ attachment: "./qrcode.png" }] });
+        const embed = new EmbedBuilder({
+            title: "Here you go!",
+            image: { url: "attachment://qrcode.png" },
+            color: brandColor,
+            footer: { text: input },
+        });
+
+        // wonky library design but ok
+        await interaction.reply({ embeds: [embed], files: ["./qrcode.png"] });
     },
 };
