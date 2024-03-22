@@ -8,13 +8,11 @@
         "ts:build": "tsc",
         "ts:dev": "tsc --watch",
         "dev": "nodemon .",
-        "prod": "pm2 start 'node -- ./dist/index.js' --name verktoy",
-        "start": "npm run ts:build && npm run prod",
-        "deploy": "echo PLS FIX THX",
+        "start": "node ./dist/index.js",
         "format": "prettier . --write",
-        "clean:all": "rmdir /S dist && rmdir /S node_modules",
-        "clean:dist": "rmdir /S dist",
-        "clean:npm": "rmdir /S node_modules"
+        "clean:all": "rm -rf dist && rm -rf node_modules",
+        "clean:dist": "rm -rf dist",
+        "clean:npm": "rm -rf node_modules"
     },
     "author": "Josey C. Wörmann (github.com/joseywoermann)",
     "license": "MIT",
