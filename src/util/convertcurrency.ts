@@ -5,5 +5,5 @@ export const convertCurrency = async (base: string, target: string, amount: numb
     const res = await fetch(url);
     const data = await res.json();
     const rate = data["rates"][target];
-    return rate;
+    return rate * amount;
 };
